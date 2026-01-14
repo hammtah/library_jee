@@ -1,7 +1,7 @@
 package com.ilisi.jee.tp.beans;
 
 public class Book {
-    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img) {
+    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock) {
         this.year = year;
         this.isbn = isbn;
         this.genre = genre;
@@ -10,9 +10,13 @@ public class Book {
         this.title = title;
         this.author = author;
         this.img = img;
+        this.stock = stock;
     }
-    private String img;
-    private int nb;
+    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img) {
+        this(year, isbn, genre, price, description, title, author, img, 0);
+    }
+        private String img;
+    private int nb;//just utility, set it to 0 on creation
     private int year;
     private String isbn;
     private String genre;
@@ -21,6 +25,15 @@ public class Book {
     private String title;
     private String author;
 
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    private int stock;
     public String getImg() {
         return img;
     }

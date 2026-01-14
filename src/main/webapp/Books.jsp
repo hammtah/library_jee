@@ -35,6 +35,7 @@
         }
 
         .book-card {
+            position: relative;
             background: white;
             border-radius: 8px;
             padding: 12px;
@@ -114,11 +115,22 @@
             border-radius: 10px;
             padding: 4px;
         }
+        .create {
+            position: fixed;
+            top: 1rem;
+            left: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            border-radius: 10px;
+            padding: 4px;
+        }
         .cart:hover {
             cursor: pointer;
             background-color: #EEEAE2;
         }
-        .cart svg {
+        .cart svg, .create svg {
             width: 32px;
             height: 32px;
             color: #382110;
@@ -135,6 +147,32 @@
         .cart-link:hover {
             text-decoration: underline;
         }
+
+        .stock-flag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            z-index: 2;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            background: #f74747;
+        }
+        .stock-flag.low {
+            --start: #ef4444; /* red-500 */
+            --end: #b91c1c;   /* red-700 */
+        }
+        .stock-flag.medium {
+            --start: #f59e0b; /* amber-500 */
+            --end: #b45309;   /* amber-700 */
+        }
+        .stock-flag.high {
+            --start: #22c55e; /* green-500 */
+            --end: #15803d;   /* green-700 */
+        }
     </style>
 </head>
 <body>
@@ -143,6 +181,19 @@
     <c:forEach items="${books}" var="book">
         <div class="book-card">
             <c:set var="imgUrl" value="" />
+            <c:set var="stockValue" value="0" />
+            <c:choose>
+                <c:when test="${not empty book.stock}">
+                    <c:set var="stockValue" value="${book.stock}" />
+                </c:when>
+            </c:choose>
+
+            <div class="stock-flag ${stockLevel}">
+                <c:choose>
+                    <c:when test="${stockValue <= 0}">Out of stock</c:when>
+                    <c:otherwise>${stockValue} in stock</c:otherwise>
+                </c:choose>
+            </div>
             <c:choose>
                 <c:when test="${not empty book.img}">
                     <c:set var="imgUrl" value="${book.img}" />
@@ -191,6 +242,11 @@
     </svg>
     <span class="cart-link">Go To Cart</span>
 </a>
-
+<a class="create" href="<%=request.getContextPath()%>/create" >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-book-upload">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 20h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12v5" /><path d="M11 16h-5a2 2 0 0 0 -2 2" /><path d="M15 16l3 -3l3 3" /><path d="M18 13v9" />
+    </svg>
+    <span class="cart-link">Add Book</span>
+</a>
 </body>
 </html>
