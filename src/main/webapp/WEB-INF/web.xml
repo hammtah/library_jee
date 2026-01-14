@@ -14,7 +14,9 @@
     <error-page>
         <location>/Error.jsp</location>
     </error-page>
-
+    <welcome-file-list>
+        <welcome-file>navigation.jsp</welcome-file>
+    </welcome-file-list>
     <context-param>
         <param-name>lang</param-name>
         <param-value>fr</param-value>

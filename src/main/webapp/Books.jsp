@@ -179,7 +179,7 @@
 <h1>${title}</h1>
 <div class="book-grid">
     <c:forEach items="${books}" var="book">
-        <a class="book-card" href="${pageContext.request.contextPath}/update?isbn=${book.isbn}">
+        <div class="book-card" href="${pageContext.request.contextPath}/update?isbn=${book.isbn}">
             <c:set var="imgUrl" value="" />
             <c:set var="stockValue" value="0" />
             <c:choose>
@@ -232,7 +232,7 @@
                 <input type="hidden" name="isbn" value="${book.isbn}">
                 <input type="submit" value="Add to cart">
             </form>
-        </a>
+        </div>
     </c:forEach>
 </div>
 
@@ -242,11 +242,11 @@
     </svg>
     <span class="cart-link">Go To Cart</span>
 </a>
-<a class="create" href="<%=request.getContextPath()%>/create" >
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-book-upload">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 20h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12v5" /><path d="M11 16h-5a2 2 0 0 0 -2 2" /><path d="M15 16l3 -3l3 3" /><path d="M18 13v9" />
-    </svg>
-    <span class="cart-link">Add Book</span>
-</a>
+<%--<a class="create" href="<%=request.getContextPath()%>/create" >--%>
+<%--    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-book-upload">--%>
+<%--        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 20h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12v5" /><path d="M11 16h-5a2 2 0 0 0 -2 2" /><path d="M15 16l3 -3l3 3" /><path d="M18 13v9" />--%>
+<%--    </svg>--%>
+<%--    <span class="cart-link">Add Book</span>--%>
+<%--</a>--%>
 </body>
 </html>
