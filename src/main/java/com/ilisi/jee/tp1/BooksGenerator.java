@@ -1,6 +1,6 @@
 package com.ilisi.jee.tp1;
 
-import com.ilisi.jee.tp.beans.Book;
+import com.ilisi.jee.tp1.beans.Book;
 
 import java.util.List;
 

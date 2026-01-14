@@ -1,6 +1,6 @@
 package com.ilisi.jee.tp1.dao.BookDao;
 
-import com.ilisi.jee.tp.beans.Book;
+import com.ilisi.jee.tp1.beans.Book;
 
 import java.sql.SQLException;
 import java.util.Collection;

@@ -5,7 +5,7 @@
          version="6.0">
     <servlet>
         <servlet-name>book</servlet-name>
-        <servlet-class>com.ilisi.jee.tp1.BookServlet</servlet-class>
+        <servlet-class>com.ilisi.jee.tp1.back.BookServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>book</servlet-name>

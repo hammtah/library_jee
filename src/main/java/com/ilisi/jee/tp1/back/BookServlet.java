@@ -1,12 +1,10 @@
-package com.ilisi.jee.tp1;
+package com.ilisi.jee.tp1.back;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import com.ilisi.jee.tp.beans.Book;
+import com.ilisi.jee.tp1.beans.Book;
 import com.ilisi.jee.tp1.dao.BookDao.BookDao;
 import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
 import jakarta.servlet.ServletException;

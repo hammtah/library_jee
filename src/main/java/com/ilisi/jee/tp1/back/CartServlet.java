@@ -1,10 +1,9 @@
-package com.ilisi.jee.tp1;
+package com.ilisi.jee.tp1.back;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import com.ilisi.jee.tp.beans.Book;
+import com.ilisi.jee.tp1.beans.Book;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

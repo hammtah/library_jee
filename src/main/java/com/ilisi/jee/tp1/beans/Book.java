@@ -1,4 +1,4 @@
-package com.ilisi.jee.tp.beans;
+package com.ilisi.jee.tp1.beans;
 
 public class Book {
     public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock) {

@@ -1,7 +1,7 @@
 package com.ilisi.jee.tp1.controller;
 
 
-import com.ilisi.jee.tp.beans.Book;
+import com.ilisi.jee.tp1.beans.Book;
 import com.ilisi.jee.tp1.dao.BookDao.BookDao;
 import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
 
