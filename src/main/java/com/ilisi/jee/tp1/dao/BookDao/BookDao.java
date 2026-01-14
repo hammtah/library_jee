@@ -11,24 +11,24 @@ import java.util.Collection;
 public class BookDao implements IBookDao{
 
     public BookDao(){
-//        try (java.sql.Connection conn = com.ilisi.jee.tp1.utility.Connection.getConnection();
-//             java.sql.Statement stmt = conn.createStatement()) {
-//            String sql = "CREATE TABLE IF NOT EXISTS BOOKS (" +
-//                    "nb INTEGER,"+
-//                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                    "isbn TEXT, " +
-//                    "title TEXT, " +
-//                    "author TEXT, " +
-//                    "genre TEXT, " +
-//                    "year INTEGER, " +
-//                    "price REAL, " +
-//                    "description TEXT, " +
-//                    "img TEXT," +
-//                    "stock INTEGER)";
-//            stmt.execute(sql);
-//        } catch (SQLException e) {
-//            System.err.println("Error initializing database table: " + e.getMessage());
-//        }
+        try (java.sql.Connection conn = com.ilisi.jee.tp1.utility.Connection.getConnection();
+             java.sql.Statement stmt = conn.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS BOOKS (" +
+                    "nb INTEGER,"+
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "isbn TEXT, " +
+                    "title TEXT, " +
+                    "author TEXT, " +
+                    "genre TEXT, " +
+                    "year INTEGER, " +
+                    "price REAL, " +
+                    "description TEXT, " +
+                    "img TEXT," +
+                    "stock INTEGER)";
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.err.println("Error initializing database table: " + e.getMessage());
+        }
 
     }
     @Override

@@ -176,7 +176,7 @@
     </style>
 </head>
 <body>
-<h1>Buy your preferred book! :)</h1>
+<h1>${title}</h1>
 <div class="book-grid">
     <c:forEach items="${books}" var="book">
         <a class="book-card" href="${pageContext.request.contextPath}/update?isbn=${book.isbn}">

@@ -11,4 +11,12 @@
         <servlet-name>book</servlet-name>
         <url-pattern>/book</url-pattern>
     </servlet-mapping>
+    <error-page>
+        <location>/Error.jsp</location>
+    </error-page>
+
+    <context-param>
+        <param-name>lang</param-name>
+        <param-value>fr</param-value>
+    </context-param>
 </web-app>

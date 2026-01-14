@@ -19,7 +19,18 @@ import jakarta.servlet.http.HttpServletResponse;
 public class BookServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        List<Book> books = new ArrayList<Book>();
+        var lang = request.getServletContext().getInitParameter("lang");
+        String title = "";
+        switch (lang){
+            case "us":
+                title = "Buy your preferred book :)";
+                break;
+            case "fr":
+                title = "Acheter vos livres préferés :)";
+                break;
+        }
+        request.setAttribute("title", title);
+        //        List<Book> books = new ArrayList<Book>();
 //        BooksGenerator.generateBooks(books);
         var isbn = request.getParameter("isbn");
         if(isbn != null && (Integer.parseInt(isbn) > 0) ){
