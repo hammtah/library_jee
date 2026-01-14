@@ -15,136 +15,171 @@
 
     <style>
         :root {
-            --bg: #f8fafc;
+            --bg: #F4F1EA;
             --surface: #ffffff;
-            --surface-muted: #f3f4f6;
-            --text: #111827;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --primary: #2e7d32;
-            --primary-600: #256f2a;
-            --primary-50: #ecfdf5;
-            --focus: #34d399;
+            --surface-muted: #EEEAE2;
+            --text: #382110;
+            --text-muted: #636363;
+            --text-light: #666666;
+            --border: #DCD6CC;
+            --primary: #382110;
+            --primary-hover: #58371F;
+            --focus: #8B7355;
             --danger: #dc2626;
-            --shadow: 0 10px 20px rgba(0,0,0,0.06), 0 6px 6px rgba(0,0,0,0.05);
-            --radius: 14px;
-            --radius-sm: 10px;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --radius: 8px;
+            --radius-sm: 6px;
         }
 
         * { box-sizing: border-box; }
         html, body { height: 100%; }
         body {
             margin: 0;
-            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            font-family: "Merriweather", Georgia, "Times New Roman", serif;
             color: var(--text);
-            background: linear-gradient(180deg, var(--bg), #ffffff);
+            background-color: var(--bg);
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1100px;
-            margin: 32px auto;
-            padding: 0 20px 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 16px 60px;
         }
 
         .page-header {
             position: sticky;
             top: 0;
-            z-index: 10;
-            background: rgba(255,255,255,0.75);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            background: var(--bg);
+            padding: 24px 0 16px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--border);
         }
         .page-header-inner {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 14px 20px;
+            padding: 0 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 16px;
+            flex-wrap: wrap;
         }
         .page-title {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
         .page-title h1 {
             margin: 0;
-            font-size: 20px;
-            letter-spacing: 0.2px;
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--text);
+            text-align: center;
         }
         .breadcrumb {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--text-muted);
+            font-style: italic;
         }
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
         .btn {
             appearance: none;
             border: 1px solid var(--border);
             background: var(--surface);
             color: var(--text);
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-weight: bold;
             cursor: pointer;
-            transition: all .15s ease;
+            transition: all .2s ease;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
         }
-        .btn:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
-        .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+        .btn:hover { 
+            box-shadow: var(--shadow-hover); 
+            transform: translateY(-1px);
+            background-color: var(--surface-muted);
+        }
+        .btn:focus-visible { 
+            outline: 2px solid var(--focus); 
+            outline-offset: 2px; 
+        }
         .btn.secondary {
             background: var(--surface-muted);
+            border-color: var(--border);
         }
         .btn.primary {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-        .btn.primary:hover { background: var(--primary-600); border-color: var(--primary-600); }
+        .btn.primary:hover { 
+            background: var(--primary-hover); 
+            border-color: var(--primary-hover); 
+        }
 
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 22px;
-            margin-top: 22px;
+            grid-template-columns: 340px 1fr;
+            gap: 0;
         }
         @media (max-width: 900px) {
             .form-grid { grid-template-columns: 1fr; }
         }
 
         .panel {
-            padding: 18px;
+            padding: 24px;
+            background: var(--surface-muted);
+            border-right: 1px solid var(--border);
+        }
+        .cover-section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 16px;
+            text-align: center;
         }
         .cover-uploader {
             position: relative;
             border: 2px dashed var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--surface-muted);
-            padding: 14px;
+            border-radius: var(--radius);
+            background: var(--surface);
+            padding: 20px;
             text-align: center;
             transition: border-color .2s ease, background-color .2s ease;
+        }
+        .cover-uploader:hover {
+            border-color: var(--focus);
+            background-color: #fafafa;
         }
         .cover-preview {
             aspect-ratio: 2/3;
             width: 100%;
-            max-width: 260px;
-            margin: 8px auto 12px;
-            border-radius: 10px;
+            max-width: 240px;
+            margin: 0 auto 16px;
+            border-radius: var(--radius);
             overflow: hidden;
-            background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
+            background: linear-gradient(135deg, var(--surface-muted), #f8f8f8);
             display: grid;
             place-items: center;
             border: 1px solid var(--border);
+            box-shadow: var(--shadow);
         }
         .cover-preview img {
             width: 100%;
@@ -154,26 +189,35 @@
         }
         .cover-placeholder {
             color: var(--text-muted);
-            font-size: 12px;
+            font-size: 13px;
             display: grid;
             place-items: center;
-            gap: 8px;
-            padding: 10px;
+            gap: 12px;
+            padding: 16px;
+            text-align: center;
         }
         .helper {
             font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 8px;
+            color: var(--text-light);
+            margin-top: 12px;
+            font-style: italic;
         }
 
         .form {
-            padding: 18px;
+            padding: 24px;
+        }
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 24px;
+            text-align: center;
         }
         .section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 14px;
+            gap: 16px;
+            margin-bottom: 20px;
         }
         .section.full {
             grid-template-columns: 1fr;
@@ -184,10 +228,10 @@
             gap: 8px;
         }
         label {
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: bold;
             color: var(--text);
-            letter-spacing: 0.2px;
+            letter-spacing: 0.3px;
         }
         input[type="text"],
         input[type="number"],
@@ -195,70 +239,101 @@
         textarea {
             width: 100%;
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             background: white;
-            padding: 12px 12px;
+            padding: 12px 14px;
             font-size: 14px;
             color: var(--text);
-            transition: border-color .15s ease, box-shadow .15s ease;
+            transition: border-color .2s ease, box-shadow .2s ease;
+            font-family: inherit;
         }
         textarea {
-            min-height: 140px;
+            min-height: 120px;
             resize: vertical;
             line-height: 1.5;
         }
-        input::placeholder, textarea::placeholder { color: #9ca3af; }
+        input::placeholder, textarea::placeholder { 
+            color: var(--text-muted); 
+            font-style: italic;
+        }
         input:focus, textarea:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.2);
+            box-shadow: 0 0 0 3px rgba(56, 33, 16, 0.1);
         }
         .inline {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .footer-actions {
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding: 16px 18px;
+            justify-content: center;
+            gap: 16px;
+            padding: 20px 24px;
             border-top: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.9) 20%, #fff 60%);
-            border-bottom-left-radius: var(--radius);
-            border-bottom-right-radius: var(--radius);
-            position: sticky;
-            bottom: 0;
-            z-index: 5;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--surface-muted));
         }
 
         .required { color: var(--danger); margin-left: 4px; }
-        .counter { color: var(--text-muted); font-size: 12px; margin-left: auto; }
-        .hint { color: var(--text-muted); font-size: 12px; }
+        .counter { 
+            color: var(--text-light); 
+            font-size: 12px; 
+            margin-left: auto;
+            font-style: italic;
+        }
+        .hint { 
+            color: var(--text-light); 
+            font-size: 12px; 
+            font-style: italic;
+        }
 
         .toast {
-            position: fixed; right: 16px; bottom: 16px;
-            background: var(--text); color: #fff;
-            padding: 10px 14px; border-radius: 10px;
-            box-shadow: var(--shadow);
-            opacity: 0; transform: translateY(8px);
-            transition: opacity .2s ease, transform .2s ease;
+            position: fixed; 
+            right: 20px; 
+            bottom: 20px;
+            background: var(--text); 
+            color: white;
+            padding: 12px 18px; 
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            opacity: 0; 
+            transform: translateY(12px);
+            transition: opacity .3s ease, transform .3s ease;
             pointer-events: none;
+            font-family: inherit;
         }
         .toast.show { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .page-header-inner {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .actions {
+                justify-content: center;
+            }
+            .panel {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
     </style>
 </head>
 <body>
 <header class="page-header">
     <div class="page-header-inner">
         <div class="page-title">
-            <svg width="22" height="22" viewBox="0 0 24 24" class="icon" aria-hidden="true">
-                <path d="M6 2h9a3 3 0 0 1 3 3v14.5a.5.5 0 0 1-.79.407L14 18.5l-3.21 1.407A.5.5 0 0 1 10 19.5V5a3 3 0 0 0-3-3Z"></path>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                <path d="M9 10h6"/>
+                <path d="M9 14h6"/>
             </svg>
-            <h1>Create a new book</h1>
+            <h1>Add a New Book</h1>
         </div>
-        <div class="breadcrumb">Library › Books › Create</div>
+<%--        <div class="breadcrumb">Home › Library › Add New Book</div>--%>
         <div class="actions">
             <a href="javascript:history.back()" class="btn secondary">Cancel</a>
             <button form="createBookForm" type="submit" class="btn primary">Save Book</button>
@@ -279,80 +354,85 @@
         <div class="form-grid">
             <!-- LEFT: Cover URL and preview -->
             <aside class="panel">
+                <h3 class="cover-section-title">Book Cover</h3>
                 <div class="field">
-                    <label for="imgUrl">Image URL</label>
-                    <div class="cover-uploader" aria-label="Image URL and preview">
+<%--                    <label for="imgUrl">Cover Image URL</label>--%>
+                    <div class="cover-uploader" aria-label="Book cover URL and preview">
                         <div class="cover-preview" id="coverPreview">
-                            <img id="coverImg" alt="Cover preview">
+                            <img id="coverImg" alt="Book cover preview">
                             <div class="cover-placeholder" id="coverPlaceholder">
-                                <svg width="42" height="42" viewBox="0 0 24 24" class="icon" aria-hidden="true">
-                                    <path d="M21 19V5a2 2 0 0 0-2-2H5C3.9 3 3 3.9 3 5v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2zM8.5 13 11 16l3.5-4.5L19 18H5l3.5-5zM8 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                                    <path d="M9 10h6"/>
+                                    <path d="M9 14h6"/>
                                 </svg>
-                                <div>Provide an image URL to preview.</div>
-                                <div class="helper">Paste a direct link (http/https) to a JPG/PNG.</div>
+                                <div>Your book cover will appear here</div>
+                                <div class="helper">Paste a direct link to see a preview of your book cover</div>
                             </div>
                         </div>
-                        <input id="imgUrl" name="img" type="url" placeholder="https://example.com/cover.jpg">
+                        <input id="imgUrl" name="img" type="url" placeholder="https://example.com/book-cover.jpg">
                     </div>
                 </div>
             </aside>
 
             <!-- RIGHT: Details -->
             <section class="form">
+                <h3 class="form-title"> Book Details</h3>
                 <div class="section">
                     <div class="field">
-                        <label for="title">Title <span class="required">*</span></label>
-                        <input id="title" name="title" type="text" placeholder="The name of the book" required>
+                        <label for="title">Book Title <span class="required">*</span></label>
+                        <input id="title" name="title" type="text" placeholder="Enter the full title of the book" required>
                     </div>
                     <div class="field">
                         <label for="author">Author <span class="required">*</span></label>
-                        <input id="author" name="author" type="text" placeholder="Author full name" required>
+                        <input id="author" name="author" type="text" placeholder="Author's full name" required>
                     </div>
                 </div>
 
                 <div class="section">
                     <div class="field">
                         <label for="isbn">ISBN</label>
-                        <input id="isbn" name="isbn" type="text" placeholder="e.g., 978-...">
+                        <input id="isbn" name="isbn" type="text" placeholder="978-0123456789">
                     </div>
                     <div class="field">
                         <label for="genre">Genre</label>
-                        <input id="genre" name="genre" type="text" placeholder="e.g., Fantasy">
+                        <input id="genre" name="genre" type="text" placeholder="Fiction, Mystery, Romance, etc.">
                     </div>
                 </div>
 
                 <div class="section">
                     <div class="field">
-                        <label for="year">Year</label>
-                        <input id="year" name="year" type="number" step="1" min="0" placeholder="e.g., 2020">
+                        <label for="year">Publication Year</label>
+                        <input id="year" name="year" type="number" step="1" min="1000" max="2030" placeholder="2024">
                     </div>
                     <div class="field">
-                        <label for="price">Price</label>
-                        <input id="price" name="price" type="number" step="0.01" min="0" placeholder="e.g., 19.99">
+                        <label for="price">Price ($)</label>
+                        <input id="price" name="price" type="number" step="0.01" min="0" placeholder="19.99">
                     </div>
                 </div>
 
                 <div class="section full">
                     <div class="field">
                         <div class="inline">
-                            <label for="description">Description</label>
+                            <label for="description"> Book Description</label>
                             <span class="counter" id="descCounter">0 / 2000</span>
                         </div>
-                        <textarea id="description" name="description" maxlength="2000" placeholder="What is this book about? Add a synopsis..."></textarea>
+                        <textarea id="description" name="description" maxlength="2000" placeholder="Write a compelling description or synopsis of the book. What's it about? What makes it special?"></textarea>
                     </div>
                 </div>
 
                 <div class="section">
                     <div class="field">
-                        <label for="stock">Stock</label>
-                        <input id="stock" name="stock" type="number" step="1" min="0" placeholder="e.g., 0">
+                        <label for="stock">Stock Quantity</label>
+                        <input id="stock" name="stock" type="number" step="1" min="0" placeholder="0">
+<%--                        <div class="hint">How many copies are available?</div>--%>
                     </div>
                 </div>
 
-                <div class="footer-actions">
-                    <a href="javascript:history.back()" class="btn secondary">Cancel</a>
-                    <button type="submit" class="btn primary">Save Book</button>
-                </div>
+<%--                <div class="footer-actions">--%>
+<%--                    <a href="javascript:history.back()" class="btn secondary">← Cancel</a>--%>
+<%--                    <button type="submit" class="btn primary">Save Book to Library</button>--%>
+<%--                </div>--%>
             </section>
         </div>
     </form>
