@@ -21,6 +21,10 @@ public class BookServlet extends HttpServlet {
             throws ServletException, IOException {
 //        List<Book> books = new ArrayList<Book>();
 //        BooksGenerator.generateBooks(books);
+        var isbn = request.getParameter("isbn");
+        if(isbn != null && (Integer.parseInt(isbn) > 0) ){
+            request.getServletContext().getRequestDispatcher("/WEB-INF/BookDetails.jsp").forward(request, response);
+        }
         IBookDao bookDao = new BookDao();
         Collection<Book> books = null;
         try {

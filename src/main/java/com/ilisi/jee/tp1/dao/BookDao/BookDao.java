@@ -68,6 +68,7 @@ public class BookDao implements IBookDao{
                     res.getString("title"),
                     res.getString("author"),
                     res.getString("img")
+//                    res.getString("stock")
             );
             books.add(book);
         }
@@ -76,14 +77,14 @@ public class BookDao implements IBookDao{
         return books;
     }
 
-    public Book get(int id) throws SQLException{
-        String getString = "SELECT * FROM book WHERE id = ?";
+    public Book get(String isbn) throws SQLException{
+        String getString = "SELECT * FROM books WHERE isbn = ?";
         var conn = Connection.getConnection();
         var pst = conn.prepareStatement(getString);
-        pst.setInt(1, id);
+        pst.setString(1, isbn);
         var res = pst.executeQuery();
         res.next();
-        return new Book(
+        Book b = new Book(
                 res.getInt("year"),
                 res.getString("isbn"),
                 res.getString("genre"),
@@ -93,14 +94,26 @@ public class BookDao implements IBookDao{
                 res.getString("author"),
                 res.getString("img")
         );
-
+        conn.close();
+        return b;
     }
-    public void update(int id) throws SQLException {
-        String updateString = "UPDATE BOOKS SET img=?, nb=?, year=?, isbn=?, genre=?, price=?, description=?, title=?, author=? WHERE id=?";
+
+    public void update(String id, Book b) throws SQLException {
+        String updateString = "UPDATE books SET img=?, nb=?, year=?, genre=?, price=?, description=?, title=?, author=? WHERE isbn=?";
         var conn = Connection.getConnection();
         var pst = conn.prepareStatement(updateString);
+        pst.setString(1, b.getImg());
+        pst.setInt(2, b.getNb());
+        pst.setInt(3, b.getYear());
+        pst.setString(4, b.getGenre());
+        pst.setFloat(5, b.getPrice());
+        pst.setString(6, b.getDescription());
+        pst.setString(7, b.getTitle());
+        pst.setString(8, b.getAuthor());
+        pst.setString(9, b.getIsbn());
         pst.executeUpdate();
         conn.close();
     }
+
 
 }

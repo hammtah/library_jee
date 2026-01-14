@@ -179,7 +179,7 @@
 <h1>Buy your preferred book! :)</h1>
 <div class="book-grid">
     <c:forEach items="${books}" var="book">
-        <div class="book-card">
+        <a class="book-card" href="${pageContext.request.contextPath}/update?isbn=${book.isbn}">
             <c:set var="imgUrl" value="" />
             <c:set var="stockValue" value="0" />
             <c:choose>
@@ -232,7 +232,7 @@
                 <input type="hidden" name="isbn" value="${book.isbn}">
                 <input type="submit" value="Add to cart">
             </form>
-        </div>
+        </a>
     </c:forEach>
 </div>
 
