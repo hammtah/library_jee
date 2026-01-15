@@ -323,6 +323,34 @@
     </style>
 </head>
 <body>
+
+<%
+    String error = (String) request.getAttribute("error");//get the error
+    //Echap special characters for JS string
+    if (error == null) error = "";
+    error = error.replace("\"", "\\\"")
+            .replace("\n", "\\n")
+            .replace("\r", "");
+%>
+<script>
+    (function () {
+        //Get the java error
+        var serverError = "<%= error%>";
+        if (serverError && serverError.length) {
+            window.addEventListener('DOMContentLoaded', function () {
+                var toastBox = document.getElementById('toast');
+                if (toastBox) {
+                    toastBox.textContent = serverError;
+                    toastBox.classList.add('show');
+                    setTimeout(function () { toastBox.classList.remove('show'); }, 4000);//hide after 4secs
+                } else {
+                    alert(serverError);
+                }
+            });
+        }
+    })();
+</script>
+
 <header class="page-header">
     <div class="page-header-inner">
         <div class="page-title">
@@ -509,5 +537,8 @@
     }
 })();
 </script>
+
+
+
 </body>
 </html>

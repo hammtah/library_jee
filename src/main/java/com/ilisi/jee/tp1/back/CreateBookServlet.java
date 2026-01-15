@@ -22,6 +22,7 @@ public class CreateBookServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
         Book b = new Book(
                 Integer.parseInt(request.getParameter("year")),
                 request.getParameter("isbn"),
@@ -34,9 +35,10 @@ public class CreateBookServlet extends HttpServlet {
                 Integer.parseInt(request.getParameter("stock"))
         );
         IBookDao bookDao = new BookDao();
-        try {
              bookDao.save(b);
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            request.setAttribute("error", "Error creating book: " + e.getMessage());
+            request.getServletContext().getRequestDispatcher("/WEB-INF/CreateBook.jsp").forward(request, response);
             System.out.println(e.getMessage());
         }
         response.sendRedirect(request.getContextPath()+ "/book");

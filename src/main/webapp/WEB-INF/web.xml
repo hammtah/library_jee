@@ -19,6 +19,6 @@
     </welcome-file-list>
     <context-param>
         <param-name>lang</param-name>
-        <param-value>fr</param-value>
+        <param-value>us</param-value>
     </context-param>
 </web-app>
