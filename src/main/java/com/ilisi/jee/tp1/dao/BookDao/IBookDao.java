@@ -10,4 +10,5 @@ public interface IBookDao {
     public Collection<Book> getAll() throws SQLException;
     public Book get(String isbn) throws SQLException;
     public void update(String isbn, Book b) throws SQLException;
+    public void delete(String isbn) throws SQLException;
 }

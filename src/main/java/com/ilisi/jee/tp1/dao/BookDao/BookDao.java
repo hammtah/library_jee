@@ -118,5 +118,14 @@ public class BookDao implements IBookDao{
         conn.close();
     }
 
+    @Override
+    public void delete(String isbn) throws SQLException {
+        String deleteSql = "DELETE FROM books WHERE isbn = ?";
+        var conn = Connection.getConnection();
+        var pst = conn.prepareStatement(deleteSql);
+        pst.setString(1, isbn);
+        pst.executeUpdate();
+        conn.close();
+    }
 
 }

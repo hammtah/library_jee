@@ -232,6 +232,10 @@
                 <input type="hidden" name="isbn" value="${book.isbn}">
                 <input type="submit" value="Add to cart">
             </form>
+<%--            <form class="add-to-cart" action="<%=request.getContextPath()%>/delete" method="post" onsubmit="return confirm('Delete this book?');">--%>
+<%--                <input type="hidden" name="isbn" value="${book.isbn}">--%>
+<%--                <input type="submit" value="Delete">--%>
+<%--            </form>--%>
         </div>
     </c:forEach>
 </div>
