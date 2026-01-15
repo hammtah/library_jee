@@ -15,7 +15,8 @@ public class Book {
     public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img) {
         this(year, isbn, genre, price, description, title, author, img, 0);
     }
-        private String img;
+    private int id;
+    private String img;
     private int nb;//just utility, set it to 0 on creation
     private int year;
     private String isbn;
@@ -34,6 +35,15 @@ public class Book {
     }
 
     private int stock;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getImg() {
         return img;
     }

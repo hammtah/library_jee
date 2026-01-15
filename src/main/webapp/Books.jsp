@@ -246,11 +246,14 @@
     </svg>
     <span class="cart-link">Go To Cart</span>
 </a>
-<%--<a class="create" href="<%=request.getContextPath()%>/create" >--%>
-<%--    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-book-upload">--%>
-<%--        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 20h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12v5" /><path d="M11 16h-5a2 2 0 0 0 -2 2" /><path d="M15 16l3 -3l3 3" /><path d="M18 13v9" />--%>
-<%--    </svg>--%>
-<%--    <span class="cart-link">Add Book</span>--%>
-<%--</a>--%>
+<!-- Active Admin Panel link (uses existing .create styling) -->
+<a class="create" href="<%=request.getContextPath()%>/admin" title="Admin Panel">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-user-shield">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 12a4 4 0 1 0 0 -8a4 4 0 0 0 0 8z" />
+        <path d="M20 14v-3a4 4 0 0 0 -4 -4h-8a4 4 0 0 0 -4 4v3c0 3 3 5 8 6c5 -1 8 -3 8 -6z" />
+    </svg>
+    <span class="cart-link">Admin Panel</span>
+</a>
 </body>
 </html>

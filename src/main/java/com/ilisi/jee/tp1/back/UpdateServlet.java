@@ -16,12 +16,12 @@ import jakarta.servlet.http.HttpServletResponse;
 public class UpdateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String isbn = request.getParameter("isbn");
-        if(isbn == null) throw new ServletException("Isbn missing");
+        String idParam = request.getParameter("id");
+        if(idParam == null) throw new ServletException("Id missing");
         IBookDao bookDao = new BookDao();
         Book b;
         try {
-            b = bookDao.get(isbn);
+            b = bookDao.get(Integer.parseInt(idParam));
             request.setAttribute("b", b);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -31,6 +31,9 @@ public class UpdateServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String idParam = request.getParameter("id");
+        if(idParam == null || idParam.isEmpty()) throw new ServletException("Id missing");
+
         Book b = new Book(
                 Integer.parseInt(request.getParameter("year")),
                 request.getParameter("isbn"),
@@ -44,7 +47,7 @@ public class UpdateServlet extends HttpServlet {
         );
         IBookDao bookDao = new BookDao();
         try {
-            bookDao.update(b.getIsbn(), b);
+            bookDao.update(Integer.parseInt(idParam), b);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

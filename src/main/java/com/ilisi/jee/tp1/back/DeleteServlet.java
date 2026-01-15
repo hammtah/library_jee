@@ -15,14 +15,14 @@ import java.sql.SQLException;
 public class DeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String isbn = request.getParameter("isbn");
-        if(isbn == null || isbn.isEmpty()){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing isbn parameter");
+        String idParam = request.getParameter("id");
+        if(idParam == null || idParam.isEmpty()){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing id parameter");
             return;
         }
         IBookDao bookDao = new BookDao();
         try {
-            bookDao.delete(isbn);
+            bookDao.delete(Integer.parseInt(idParam));
         } catch (SQLException e) {
             throw new ServletException("Error deleting book: " + e.getMessage(), e);
         }

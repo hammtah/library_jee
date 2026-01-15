@@ -451,6 +451,7 @@
                 <table class="books-table">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Cover</th>
                             <th>Title & Author</th>
                             <th>ISBN</th>
@@ -474,6 +475,7 @@
                                 }
                         %>
                         <tr>
+                            <td><strong><%= book.getId() %></strong></td>
                             <td>
                                 <img src="<%= book.getImg() != null ? book.getImg() : "/images/placeholder-book.png" %>" 
                                      alt="<%= book.getTitle() %>" 
@@ -496,15 +498,15 @@
                             </td>
                             <td>
                                 <div class="book-actions">
-                                    <a href="${pageContext.request.contextPath}/update?isbn=<%= book.getIsbn() %>" class="action-btn edit">
+                                    <a href="${pageContext.request.contextPath}/update?id=<%= book.getId() %>" class="action-btn edit">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                                         </svg>
                                         Edit
                                     </a>
-                                    <a href="${pageContext.request.contextPath}/delete?isbn=<%= book.getIsbn() %>" 
-                                       class="action-btn delete" 
+                                    <a href="${pageContext.request.contextPath}/delete?id=<%= book.getId() %>"
+                                       class="action-btn delete"
                                        onclick="return confirm('Are you sure you want to delete this book?')">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <polyline points="3,6 5,6 21,6"/>

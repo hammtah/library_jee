@@ -71,6 +71,7 @@ public class BookDao implements IBookDao{
                     res.getString("img"),
                     res.getInt("stock")
             );
+            book.setId(res.getInt("id"));
             books.add(book);
         }
         conn.close();
@@ -78,11 +79,11 @@ public class BookDao implements IBookDao{
         return books;
     }
 
-    public Book get(String isbn) throws SQLException{
-        String getString = "SELECT * FROM books WHERE isbn = ?";
+    public Book get(int id) throws SQLException{
+        String getString = "SELECT * FROM books WHERE id = ?";
         var conn = Connection.getConnection();
         var pst = conn.prepareStatement(getString);
-        pst.setString(1, isbn);
+        pst.setInt(1, id);
         var res = pst.executeQuery();
         res.next();
         Book b = new Book(
@@ -96,34 +97,36 @@ public class BookDao implements IBookDao{
                 res.getString("img"),
                 res.getInt("stock")
         );
+        b.setId(res.getInt("id"));
         conn.close();
         return b;
     }
 
-    public void update(String id, Book b) throws SQLException {
-        String updateString = "UPDATE books SET img=?, nb=?, year=?, genre=?, price=?, description=?, title=?, author=?, stock=? WHERE isbn=?";
+    public void update(int id, Book b) throws SQLException {
+        String updateString = "UPDATE books SET img=?, nb=?, year=?, isbn=?, genre=?, price=?, description=?, title=?, author=?, stock=? WHERE id=?";
         var conn = Connection.getConnection();
         var pst = conn.prepareStatement(updateString);
         pst.setString(1, b.getImg());
         pst.setInt(2, b.getNb());
         pst.setInt(3, b.getYear());
-        pst.setString(4, b.getGenre());
-        pst.setFloat(5, b.getPrice());
-        pst.setString(6, b.getDescription());
-        pst.setString(7, b.getTitle());
-        pst.setString(8, b.getAuthor());
-        pst.setInt(9, b.getStock());
-        pst.setString(10, b.getIsbn());
+        pst.setString(4, b.getIsbn());
+        pst.setString(5, b.getGenre());
+        pst.setFloat(6, b.getPrice());
+        pst.setString(7, b.getDescription());
+        pst.setString(8, b.getTitle());
+        pst.setString(9, b.getAuthor());
+        pst.setInt(10, b.getStock());
+        pst.setInt(11, id);
         pst.executeUpdate();
         conn.close();
     }
 
     @Override
-    public void delete(String isbn) throws SQLException {
-        String deleteSql = "DELETE FROM books WHERE isbn = ?";
+    public void delete(int id) throws SQLException {
+        String deleteSql = "DELETE FROM books WHERE id = ?";
         var conn = Connection.getConnection();
         var pst = conn.prepareStatement(deleteSql);
-        pst.setString(1, isbn);
+        pst.setInt(1, id);
         pst.executeUpdate();
         conn.close();
     }

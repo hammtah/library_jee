@@ -275,6 +275,7 @@
 
         <!-- utility default for nb -->
         <input type="hidden" name="nb" value="0"/>
+        <input type="hidden" name="id" value="${b.id}"/>
 
         <div class="form-grid">
             <!-- LEFT: Cover URL and preview -->
