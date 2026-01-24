@@ -2,6 +2,8 @@ package com.ilisi.jee.tp1.back;
 
 import com.ilisi.jee.tp1.dao.BookDao.BookDao;
 import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
+import com.ilisi.jee.tp1.exception.Book.BookServiceException;
+import com.ilisi.jee.tp1.service.IBookService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +15,13 @@ import java.sql.SQLException;
 
 @WebServlet("/delete")
 public class DeleteServlet extends HttpServlet {
+    private IBookService bookService;
+
+    @Override
+    public void init() throws ServletException {
+        bookService = (IBookService) getServletContext().getAttribute("BookService");
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String idParam = request.getParameter("id");
@@ -20,11 +29,11 @@ public class DeleteServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing id parameter");
             return;
         }
-        IBookDao bookDao = new BookDao();
         try {
-            bookDao.delete(Integer.parseInt(idParam));
-        } catch (SQLException e) {
-            throw new ServletException("Error deleting book: " + e.getMessage(), e);
+            bookService.delete(Integer.parseInt(idParam));
+        } catch (BookServiceException e) {
+            System.out.println(e.getMessage());
+            request.setAttribute("error","Error deleting book");
         }
         response.sendRedirect(request.getContextPath() + "/book");
     }

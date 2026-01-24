@@ -15,10 +15,15 @@
         <location>/Error.jsp</location>
     </error-page>
     <welcome-file-list>
-        <welcome-file>navigation.jsp</welcome-file>
+        <welcome-file>/book</welcome-file>
     </welcome-file-list>
     <context-param>
         <param-name>lang</param-name>
-        <param-value>us</param-value>
+        <param-value>fr</param-value>
     </context-param>
+
+    <listener>
+        <listener-class>com.ilisi.jee.tp1.AppContextListener</listener-class>
+    </listener>
+
 </web-app>

@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import com.ilisi.jee.tp1.beans.Book;
 import com.ilisi.jee.tp1.dao.BookDao.BookDao;
 import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
+import com.ilisi.jee.tp1.exception.Book.BookServiceException;
+import com.ilisi.jee.tp1.service.IBookService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,17 +16,24 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/update")
 public class UpdateServlet extends HttpServlet {
+    private IBookService bookService;
+
+    @Override
+    public void init() throws ServletException {
+        bookService = (IBookService) getServletContext().getAttribute("BookService");
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String idParam = request.getParameter("id");
         if(idParam == null) throw new ServletException("Id missing");
-        IBookDao bookDao = new BookDao();
         Book b;
         try {
-            b = bookDao.get(Integer.parseInt(idParam));
+            b = bookService.get(Integer.parseInt(idParam));
             request.setAttribute("b", b);
-        } catch (SQLException e) {
+        } catch (BookServiceException e) {
             System.out.println(e.getMessage());
+            request.setAttribute("error", "Error loading book" );
         }
         request.getServletContext().getRequestDispatcher("/WEB-INF/UpdateBook.jsp").forward(request, response);
     }
@@ -45,11 +54,12 @@ public class UpdateServlet extends HttpServlet {
                 request.getParameter("img"),
                 Integer.parseInt(request.getParameter("stock"))
         );
-        IBookDao bookDao = new BookDao();
         try {
-            bookDao.update(Integer.parseInt(idParam), b);
-        } catch (SQLException e) {
+            bookService.update(Integer.parseInt(idParam), b);
+        } catch (BookServiceException e) {
             System.out.println(e.getMessage());
+            request.setAttribute("error", "Error updating book: ");
+//            request.getServletContext().getRequestDispatcher("/WEB-INF/UpdateBook.jsp").forward(request, response);
         }
         response.sendRedirect(request.getContextPath()+ "/book");
     }

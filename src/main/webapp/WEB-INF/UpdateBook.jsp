@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Book • Library</title>
+    <title>Update Book • Library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
@@ -250,18 +250,44 @@
     </style>
 </head>
 <body>
+
+<%
+    String error = (String) request.getAttribute("error"); // get server-side error if any
+    if (error == null) error = "";
+    error = error.replace("\"", "\\\"")
+            .replace("\n", "\\n")
+            .replace("\r", "");
+%>
+<script>
+    (function () {
+        var serverError = "<%= error%>";
+        if (serverError && serverError.length) {
+            window.addEventListener('DOMContentLoaded', function () {
+                var toastBox = document.getElementById('toast');
+                if (toastBox) {
+                    toastBox.textContent = serverError;
+                    toastBox.classList.add('show');
+                    setTimeout(function () { toastBox.classList.remove('show'); }, 4000);
+                } else {
+                    alert(serverError);
+                }
+            });
+        }
+    })();
+</script>
+
 <header class="page-header">
     <div class="page-header-inner">
         <div class="page-title">
             <svg width="22" height="22" viewBox="0 0 24 24" class="icon" aria-hidden="true">
                 <path d="M6 2h9a3 3 0 0 1 3 3v14.5a.5.5 0 0 1-.79.407L14 18.5l-3.21 1.407A.5.5 0 0 1 10 19.5V5a3 3 0 0 0-3-3Z"></path>
             </svg>
-            <h1>Create a new book</h1>
+            <h1>Update Book</h1>
         </div>
-        <div class="breadcrumb">Library › Books › Create</div>
+        <div class="breadcrumb">Library › Books › Update</div>
         <div class="actions">
             <a href="javascript:history.back()" class="btn secondary">Cancel</a>
-            <button form="createBookForm" type="submit" class="btn primary">Save Book</button>
+            <button form="createBookForm" type="submit" class="btn primary">Update Book</button>
         </div>
     </div>
 </header>
@@ -339,9 +365,7 @@
                             <label for="description">Description</label>
                             <span class="counter" id="descCounter">0 / 2000</span>
                         </div>
-                        <textarea id="description" name="description" maxlength="2000" placeholder="What is this book about? Add a synopsis..." >
-                            ${b.description}
-                        </textarea>
+                        <textarea id="description" name="description" maxlength="2000" placeholder="What is this book about? Add a synopsis...">${b.description}</textarea>
                     </div>
                 </div>
 
@@ -401,7 +425,11 @@
             counter.textContent = (desc.value.length || 0) + ' / ' + max;
         }
         desc.addEventListener('input', updateCounter);
-        updateCounter();
+        // Ensure the preview and counter reflect any server-provided values on initial load
+        window.addEventListener('DOMContentLoaded', function () {
+            updateCoverFromUrl();
+            updateCounter();
+        });
 
         // Basic client-side validation UX
         $$('#createBookForm').addEventListener('submit', (e) => {

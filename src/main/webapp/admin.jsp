@@ -1,16 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.ilisi.jee.tp1.controller.BookController" %>
+<%@ page import="com.ilisi.jee.tp1.service.BookService" %>
 <%@ page import="com.ilisi.jee.tp1.beans.Book" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="com.ilisi.jee.tp1.service.BookService" %>
 <%
-    BookController bookController = new BookController();
-    Collection<Book> books = null;
-    try {
-        books = bookController.getAllBooks();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+//    BookService bookService = new BookService();
+//    Collection<Book> books = null;
+//    try {
+//        books = bookService.getAllBooks();
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+    Collection<Book> books = (Collection<Book>) request.getAttribute("books");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -417,7 +419,7 @@
         </div>
         <div class="breadcrumb">Library System › Administration</div>
         <div class="actions">
-            <a href="${pageContext.request.contextPath}/navigation.jsp" class="btn secondary">← Back to Navigation</a>
+            <a href="${pageContext.request.contextPath}/book" class="btn secondary">← Back to Navigation</a>
         </div>
     </div>
 </header>
@@ -480,7 +482,7 @@
                                 <img src="<%= book.getImg() != null ? book.getImg() : "/images/placeholder-book.png" %>" 
                                      alt="<%= book.getTitle() %>" 
                                      class="book-cover"
-                                     onerror="this.src='/images/placeholder-book.png'">
+                                     >
                             </td>
                             <td>
                                 <div class="book-title"><%= book.getTitle() %></div>

@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 import com.ilisi.jee.tp1.beans.Book;
-import com.ilisi.jee.tp1.controller.BookController;
+import com.ilisi.jee.tp1.exception.Book.BookServiceException;
+import com.ilisi.jee.tp1.service.BookService;
+import com.ilisi.jee.tp1.service.IBookService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,22 +16,22 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/admin")
 public class AdminServlet extends HttpServlet {
-    private BookController bookController;
+    private IBookService bookService;
 
     @Override
     public void init() throws ServletException {
-        bookController = new BookController();
+        bookService = (IBookService) getServletContext().getAttribute("BookService");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Collection<Book> books = bookController.getAllBooks();
+            Collection<Book> books = bookService.getAll();
             request.setAttribute("books", books);
             request.getRequestDispatcher("/admin.jsp").forward(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            request.setAttribute("error", "Error loading books: " + e.getMessage());
+        } catch (BookServiceException e) {
+            System.out.println(e.getMessage());
+            request.setAttribute("error", "Error loading books ");
             request.getRequestDispatcher("/admin.jsp").forward(request, response);
         }
     }
