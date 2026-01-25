@@ -1,7 +1,7 @@
 package com.ilisi.jee.tp1.beans;
 
 public class Book {
-    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock) {
+    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock, String driveUrl) {
         this.year = year;
         this.isbn = isbn;
         this.genre = genre;
@@ -11,6 +11,10 @@ public class Book {
         this.author = author;
         this.img = img;
         this.stock = stock;
+        this.driveUrl = driveUrl != null ? driveUrl : "";
+    }
+    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock) {
+        this(year, isbn, genre, price, description, title, author, img, stock, null);
     }
     public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img) {
         this(year, isbn, genre, price, description, title, author, img, 0);
@@ -35,6 +39,15 @@ public class Book {
     }
 
     private int stock;
+    private String driveUrl;
+
+    public String getDriveUrl() {
+        return driveUrl;
+    }
+
+    public void setDriveUrl(String driveUrl) {
+        this.driveUrl = driveUrl != null ? driveUrl : "";
+    }
 
     public int getId() {
         return id;

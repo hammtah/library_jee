@@ -455,6 +455,11 @@
                         <input id="stock" name="stock" type="number" step="1" min="0" placeholder="0">
 <%--                        <div class="hint">How many copies are available?</div>--%>
                     </div>
+                    <div class="field">
+                        <label for="driveUrl">Google Drive URL</label>
+                        <input id="driveUrl" name="driveUrl" type="url" placeholder="https://drive.google.com/...">
+                        <div class="hint">Optional link to the book file on Google Drive</div>
+                    </div>
                 </div>
 
 <%--                <div class="footer-actions">--%>

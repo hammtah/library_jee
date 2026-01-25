@@ -452,6 +452,11 @@
                         <label for="stock">Stock</label>
                         <input id="stock" name="stock" type="number" step="1" min="0" placeholder="e.g., 0" value="${b.stock}">
                     </div>
+                    <div class="field">
+                        <label for="driveUrl">Google Drive URL</label>
+                        <input id="driveUrl" name="driveUrl" type="url" placeholder="https://drive.google.com/..." value="${empty b.driveUrl ? '' : b.driveUrl}">
+                        <div class="hint">Optional link to the book file on Google Drive</div>
+                    </div>
                 </div>
 
                 <!-- footer actions are intentionally omitted; primary action is in the header to match CreateBook.jsp -->

@@ -43,6 +43,7 @@ public class UpdateServlet extends HttpServlet {
         String idParam = request.getParameter("id");
         if(idParam == null || idParam.isEmpty()) throw new ServletException("Id missing");
 
+        String driveUrlParam = request.getParameter("driveUrl");
         Book b = new Book(
                 Integer.parseInt(request.getParameter("year")),
                 request.getParameter("isbn"),
@@ -52,7 +53,8 @@ public class UpdateServlet extends HttpServlet {
                 request.getParameter("title"),
                 request.getParameter("author"),
                 request.getParameter("img"),
-                Integer.parseInt(request.getParameter("stock"))
+                Integer.parseInt(request.getParameter("stock")),
+                driveUrlParam != null && !driveUrlParam.trim().isEmpty() ? driveUrlParam.trim() : null
         );
         try {
             bookService.update(Integer.parseInt(idParam), b);

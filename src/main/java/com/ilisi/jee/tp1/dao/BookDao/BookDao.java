@@ -25,8 +25,12 @@ public class BookDao implements IBookDao{
                     "price REAL, " +
                     "description TEXT, " +
                     "img TEXT," +
-                    "stock INTEGER)";
+                    "stock INTEGER," +
+                    "drive_url TEXT)";
             stmt.execute(sql);
+            try {
+                stmt.execute("ALTER TABLE books ADD COLUMN drive_url TEXT");
+            } catch (SQLException ignored) { /* column may already exist */ }
         } catch (SQLException e) {
             System.err.println("Error initializing database table: " + e.getMessage());
         }
@@ -34,8 +38,8 @@ public class BookDao implements IBookDao{
     }
     @Override
     public void save(Book b) throws DaoException {
-        String saveSql = "INSERT INTO books (img, nb, year, isbn, genre, price, description, title, author, stock) \n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String saveSql = "INSERT INTO books (img, nb, year, isbn, genre, price, description, title, author, stock, drive_url) \n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         try(var conn = Connection.getConnection()) {
             var pst = conn.prepareStatement(saveSql);
 
@@ -49,6 +53,7 @@ public class BookDao implements IBookDao{
             pst.setString(8, b.getTitle());
             pst.setString(9, b.getAuthor());
             pst.setInt(10, b.getStock());
+            pst.setString(11, b.getDriveUrl() != null ? b.getDriveUrl() : "");
 
             pst.executeUpdate();
         }catch (SQLException e){
@@ -73,7 +78,8 @@ public class BookDao implements IBookDao{
                         res.getString("title"),
                         res.getString("author"),
                         res.getString("img"),
-                        res.getInt("stock")
+                        res.getInt("stock"),
+                        res.getString("drive_url")
                 );
                 book.setId(res.getInt("id"));
                 books.add(book);
@@ -101,7 +107,8 @@ public class BookDao implements IBookDao{
                     res.getString("title"),
                     res.getString("author"),
                     res.getString("img"),
-                    res.getInt("stock")
+                    res.getInt("stock"),
+                    res.getString("drive_url")
             );
             b.setId(res.getInt("id"));
         }catch (SQLException e){
@@ -111,7 +118,7 @@ public class BookDao implements IBookDao{
     }
 
     public void update(int id, Book b) throws DaoException {
-        String updateString = "UPDATE books SET img=?, nb=?, year=?, isbn=?, genre=?, price=?, description=?, title=?, author=?, stock=? WHERE id=?";
+        String updateString = "UPDATE books SET img=?, nb=?, year=?, isbn=?, genre=?, price=?, description=?, title=?, author=?, stock=?, drive_url=? WHERE id=?";
         try(var conn = Connection.getConnection()) {
             var pst = conn.prepareStatement(updateString);
             pst.setString(1, b.getImg());
@@ -124,7 +131,8 @@ public class BookDao implements IBookDao{
             pst.setString(8, b.getTitle());
             pst.setString(9, b.getAuthor());
             pst.setInt(10, b.getStock());
-            pst.setInt(11, id);
+            pst.setString(11, b.getDriveUrl() != null ? b.getDriveUrl() : "");
+            pst.setInt(12, id);
             pst.executeUpdate();
         }catch (SQLException e){
             throw new DaoException("Error updating book to DB", e);

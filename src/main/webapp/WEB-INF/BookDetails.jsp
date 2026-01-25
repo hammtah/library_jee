@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -439,6 +440,24 @@
                         <input id="stock" name="stock" type="number" value="${b.stock}" readonly>
                     </div>
                 </div>
+
+                <c:if test="${not empty b.driveUrl}">
+                <div class="section full">
+                    <div class="field">
+                        <label>Google Drive</label>
+                        <a href="${b.driveUrl}" target="_blank" rel="noopener noreferrer" class="btn primary" style="display: inline-flex;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+                                <path d="M12 12v9"/>
+                                <path d="m16 16-4-4-4 4"/>
+                                <path d="M12 16V3"/>
+                            </svg>
+                            View on Google Drive
+                        </a>
+                        <div class="hint" style="margin-top: 8px;">${b.driveUrl}</div>
+                    </div>
+                </div>
+                </c:if>
 
             </section>
         </div>

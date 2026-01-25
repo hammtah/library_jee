@@ -42,6 +42,7 @@ public class CreateBookServlet extends HttpServlet {
         String imgStr = request.getParameter("img");
         String descriptionStr = request.getParameter("description");
         String genreStr = request.getParameter("genre");
+        String driveUrlStr = request.getParameter("driveUrl");
 
         try {
             BookInputValidator.validateCreate(titleStr, authorStr, priceStr, yearStr, stockStr, isbnStr);
@@ -54,7 +55,8 @@ public class CreateBookServlet extends HttpServlet {
                     titleStr,
                     authorStr,
                     imgStr,
-                    Integer.parseInt(stockStr)
+                    Integer.parseInt(stockStr),
+                    driveUrlStr != null && !driveUrlStr.trim().isEmpty() ? driveUrlStr.trim() : null
             );
              bookService.save(b);
         } catch (BookServiceException e) {
