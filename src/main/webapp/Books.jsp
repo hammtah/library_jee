@@ -179,7 +179,7 @@
 <h1>${title}</h1>
 <div class="book-grid">
     <c:forEach items="${books}" var="book">
-        <div class="book-card" href="${pageContext.request.contextPath}/update?isbn=${book.isbn}">
+        <div class="book-card" data-href="${pageContext.request.contextPath}/details?id=${book.id}">
             <c:set var="imgUrl" value="" />
             <c:set var="stockValue" value="0" />
             <c:choose>
@@ -255,5 +255,25 @@
     </svg>
     <span class="cart-link">Admin Panel</span>
 </a>
+
+<script>
+    // Make the whole book card clickable and navigate to data-href, but ignore clicks on forms or interactive controls inside the card
+    (function () {
+        document.querySelectorAll('.book-card').forEach(function (card) {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function (e) {
+                // If the click originated from a form control (input/button/select) or an anchor, do nothing
+                if (e.target.closest('form') || e.target.closest('a') || e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT' || e.target.tagName === 'LABEL') {
+                    return;
+                }
+                var href = card.getAttribute('data-href');
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+        });
+    })();
+</script>
 </body>
 </html>
+
