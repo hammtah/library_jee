@@ -7,7 +7,9 @@ import com.ilisi.jee.tp1.beans.Book;
 import com.ilisi.jee.tp1.dao.BookDao.BookDao;
 import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
 import com.ilisi.jee.tp1.exception.Book.BookServiceException;
+import com.ilisi.jee.tp1.exception.ValidationException;
 import com.ilisi.jee.tp1.service.IBookService;
+import com.ilisi.jee.tp1.validation.BookInputValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,22 +33,37 @@ public class CreateBookServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String titleStr = request.getParameter("title");
+        String authorStr = request.getParameter("author");
+        String priceStr = request.getParameter("price");
+        String yearStr = request.getParameter("year");
+        String stockStr = request.getParameter("stock");
+        String isbnStr = request.getParameter("isbn");
+        String imgStr = request.getParameter("img");
+        String descriptionStr = request.getParameter("description");
+        String genreStr = request.getParameter("genre");
+
         try {
+            BookInputValidator.validateCreate(titleStr, authorStr, priceStr, yearStr, stockStr, isbnStr);
             Book b = new Book(
-                    Integer.parseInt(request.getParameter("year")),
-                    request.getParameter("isbn"),
-                    request.getParameter("genre"),
-                    Float.parseFloat(request.getParameter("price")),
-                    request.getParameter("description"),
-                    request.getParameter("title"),
-                    request.getParameter("author"),
-                request.getParameter("img"),
-                    Integer.parseInt(request.getParameter("stock"))
+                    Integer.parseInt(yearStr),
+                    isbnStr,
+                    genreStr,
+                    Float.parseFloat(priceStr),
+                    descriptionStr,
+                    titleStr,
+                    authorStr,
+                    imgStr,
+                    Integer.parseInt(stockStr)
             );
              bookService.save(b);
         } catch (BookServiceException e) {
             System.out.println(e.getMessage());
-            request.setAttribute("error", "Error creating book " );
+            request.setAttribute("error", "Error creating book");
+            request.getServletContext().getRequestDispatcher("/WEB-INF/CreateBook.jsp").forward(request, response);
+        }catch (ValidationException ve){
+            System.out.println(ve.getMessage());
+            request.setAttribute("error",ve.getMessage());
             request.getServletContext().getRequestDispatcher("/WEB-INF/CreateBook.jsp").forward(request, response);
         }
         response.sendRedirect(request.getContextPath()+ "/book");

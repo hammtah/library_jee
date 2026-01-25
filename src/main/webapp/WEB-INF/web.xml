@@ -23,7 +23,7 @@
     </context-param>
 
     <listener>
-        <listener-class>com.ilisi.jee.tp1.AppContextListener</listener-class>
+        <listener-class>com.ilisi.jee.tp1.listener.AppContextListener</listener-class>
     </listener>
 
 </web-app>
