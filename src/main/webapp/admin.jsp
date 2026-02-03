@@ -421,6 +421,7 @@
         <div class="breadcrumb">Library System › Administration</div>
         <div class="actions">
             <a href="${pageContext.request.contextPath}/book" class="btn secondary">← Back to Navigation</a>
+            <a href="${pageContext.request.contextPath}/users" class="btn secondary">Users</a>
             <c:if test="${not empty sessionScope.admin}">
                 <a href="${pageContext.request.contextPath}/logout" class="btn secondary">Logout</a>
             </c:if>
