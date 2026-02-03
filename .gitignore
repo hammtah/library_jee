@@ -40,3 +40,5 @@ mvnw
 mvnw.cmd
 ### Mac OS ###
 .DS_Store
+identifier.sqlite
+*.sqlite

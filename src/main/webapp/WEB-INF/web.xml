@@ -11,9 +11,9 @@
         <servlet-name>book</servlet-name>
         <url-pattern>/book</url-pattern>
     </servlet-mapping>
-    <error-page>
-        <location>/Error.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <location>/Error.jsp</location>-->
+<!--    </error-page>-->
     <welcome-file-list>
         <welcome-file>/book</welcome-file>
     </welcome-file-list>

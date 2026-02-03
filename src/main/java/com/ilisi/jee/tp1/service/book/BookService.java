@@ -1,8 +1,7 @@
-package com.ilisi.jee.tp1.service;
+package com.ilisi.jee.tp1.service.book;
 
 
 import com.ilisi.jee.tp1.beans.Book;
-import com.ilisi.jee.tp1.dao.BookDao.BookDao;
 import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
 import com.ilisi.jee.tp1.exception.Book.BookServiceException;
 import com.ilisi.jee.tp1.exception.DaoException;

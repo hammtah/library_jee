@@ -1,16 +1,11 @@
 package com.ilisi.jee.tp1.back;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Collection;
 
 import com.ilisi.jee.tp1.beans.Book;
-import com.ilisi.jee.tp1.dao.BookDao.BookDao;
-import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
 import com.ilisi.jee.tp1.exception.Book.BookServiceException;
-import com.ilisi.jee.tp1.service.BookService;
-import com.ilisi.jee.tp1.service.IBookService;
-import com.ilisi.jee.tp1.service.IBookService;
+import com.ilisi.jee.tp1.service.book.IBookService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

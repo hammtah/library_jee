@@ -1,9 +1,7 @@
 package com.ilisi.jee.tp1.back;
 
-import com.ilisi.jee.tp1.dao.BookDao.BookDao;
-import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
 import com.ilisi.jee.tp1.exception.Book.BookServiceException;
-import com.ilisi.jee.tp1.service.IBookService;
+import com.ilisi.jee.tp1.service.book.IBookService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/delete")
 public class DeleteServlet extends HttpServlet {

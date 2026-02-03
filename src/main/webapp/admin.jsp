@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.ilisi.jee.tp1.service.BookService" %>
+<%@ page import="com.ilisi.jee.tp1.service.book.BookService" %>
 <%@ page import="com.ilisi.jee.tp1.beans.Book" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="com.ilisi.jee.tp1.service.BookService" %>
+<%@ page import="com.ilisi.jee.tp1.service.book.BookService" %>
 <%
 //    BookService bookService = new BookService();
 //    Collection<Book> books = null;
