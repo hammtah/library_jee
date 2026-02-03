@@ -13,6 +13,6 @@ we have to ensure that this instance has synchronized operations(is thread-safe 
 
 
 ## Plan
-1.Create admin service, dao, servlet, ui
-2. create user service, dao, servlet, ui (addUser, listUsers, deleteUser, updateUser)
+1.[x]Create admin service, dao, servlet, ui
+2. create user service, dao, servlet, ui (addUser, listUsers, deleteUser, updateUser, getUserById)
 3. create borrow service, dao, servlet, ui(borrowBook, returnBook, listBorrowedBooks, updateBorrowedBook)

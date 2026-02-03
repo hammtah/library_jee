@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.ilisi.jee.tp1.service.book.BookService" %>
 <%@ page import="com.ilisi.jee.tp1.beans.Book" %>
@@ -420,6 +421,9 @@
         <div class="breadcrumb">Library System › Administration</div>
         <div class="actions">
             <a href="${pageContext.request.contextPath}/book" class="btn secondary">← Back to Navigation</a>
+            <c:if test="${not empty sessionScope.admin}">
+                <a href="${pageContext.request.contextPath}/logout" class="btn secondary">Logout</a>
+            </c:if>
         </div>
     </div>
 </header>
