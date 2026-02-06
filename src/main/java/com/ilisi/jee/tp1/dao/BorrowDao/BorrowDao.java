@@ -14,6 +14,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public class BorrowDao implements IBorrowDao {
 
@@ -174,5 +175,62 @@ public class BorrowDao implements IBorrowDao {
                 rs.getString("status"),
                 rd != null ? new Date(rd.getTime()) : null
         );
+    }
+
+    @Override
+    public Collection<Borrow> getNotReturnedBorrowsByBookId(int bookId) throws DaoException {
+        String sql = """
+            SELECT 
+                b.borrow_id, b.book_id, b.user_id, b.borrow_date, b.status, b.return_date,
+                bk.id AS bk_id, bk.img, bk.nb, bk.year, bk.isbn, bk.genre, bk.price, bk.description, bk.title, bk.author, bk.stock, bk.drive_url,
+                u.user_id AS u_id, u.name, u.cin
+            FROM borrow b
+            JOIN books bk ON b.book_id = bk.id
+            JOIN users u ON b.user_id = u.user_id
+            WHERE b.book_id = ?
+            WHERE b.status = 'borrowed'
+            ORDER BY b.borrow_date DESC
+        """;
+        var result = new ArrayList<Borrow>();
+        try (var conn = Connection.getConnection();
+             var ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookId);
+            try (var rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(mapBorrow(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Error retrieving borrows by book id: ", e);
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<Borrow> getByUserId(int userId) throws DaoException {
+        String sql = """
+            SELECT 
+                b.borrow_id, b.book_id, b.user_id, b.borrow_date, b.status, b.return_date,
+                bk.id AS bk_id, bk.img, bk.nb, bk.year, bk.isbn, bk.genre, bk.price, bk.description, bk.title, bk.author, bk.stock, bk.drive_url,
+                u.user_id AS u_id, u.name, u.cin
+            FROM borrow b
+            JOIN books bk ON b.book_id = bk.id
+            JOIN users u ON b.user_id = u.user_id
+            WHERE b.user_id = ?
+            ORDER BY b.borrow_date DESC
+        """;
+        var result = new ArrayList<Borrow>();
+        try (var conn = Connection.getConnection();
+             var ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (var rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(mapBorrow(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Error retrieving borrows by user id: ", e);
+        }
+        return result;
     }
 }

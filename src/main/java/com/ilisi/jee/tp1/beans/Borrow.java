@@ -9,7 +9,6 @@ public class Borrow {
     private Date borrowDate;
     private String status;
     private Date returnDate;
-
     public Borrow() {}
 
     public Borrow(int borrowId, Book book, User user, Date borrowDate, String status, Date returnDate) {

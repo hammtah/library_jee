@@ -7,6 +7,9 @@ public class User {
 
     public User() {
     }
+    public User(int id) {
+        this.id = id;
+    }
 
     public User(int id, String name, String cin) {
         this.id = id;
