@@ -11,7 +11,7 @@ we have to ensure that this instance has synchronized operations(is thread-safe 
         2.Using a servlet that runs on startup: create the service in the init() method of the controller class and set it in the ServletContext object using setAttribute() method.
 !one important thing is that we are storing just the service instance not the dao, because the dao will be injected in the service constructor.
 
-
+!Connection is not thread safe, so don't store it as a dao attribute because the the dao instance is shared between multiple requests, so if we store the connection as an attribute, multiple requests will use the same connection object which is not thread safe, so we have to create a new connection for each request, so we will create the connection in each dao method that needs it and close it after using it.
 ## Plan
 1.[x]Create admin service, dao, servlet, ui
 2. create user service, dao, servlet, ui (addUser, listUsers, deleteUser, updateUser, getUserById)
