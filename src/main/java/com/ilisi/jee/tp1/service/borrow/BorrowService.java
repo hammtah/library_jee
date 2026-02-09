@@ -10,7 +10,6 @@ import com.ilisi.jee.tp1.exception.DaoException;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 public class BorrowService implements IBorrowService{
     private IBookDao bookDao;
@@ -20,6 +19,14 @@ public class BorrowService implements IBorrowService{
         this.bookDao = bookDao;
         this.borrowDao = borrowDao;
         this.userDao = userDao;
+    }
+
+    public Collection<Book> getAllBooks() throws DaoException {
+        return bookDao.getAll();
+    }
+
+    public Collection<User> getAllUsers() throws DaoException {
+        return userDao.getAll();
     }
     public boolean isAvailable(int bookId) throws Exception{
         Book b = bookDao.get(bookId);

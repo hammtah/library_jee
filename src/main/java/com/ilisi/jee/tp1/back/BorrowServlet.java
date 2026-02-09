@@ -40,6 +40,12 @@ public class BorrowServlet extends HttpServlet {
         String action = reqParam(request, "action", "list");
 
         try {
+            // For any view that shows the borrow form we need the list of books and users
+            if ("new".equalsIgnoreCase(action) || "edit".equalsIgnoreCase(action)) {
+                request.setAttribute("books", borrowService.getAllBooks());
+                request.setAttribute("users", borrowService.getAllUsers());
+            }
+
             switch (action) {
                 case "new" -> {
                     request.setAttribute("mode", "create");

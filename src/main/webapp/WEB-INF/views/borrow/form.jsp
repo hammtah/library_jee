@@ -1,10 +1,13 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java"
+        import="java.util.Collection,com.ilisi.jee.tp1.beans.Book,com.ilisi.jee.tp1.beans.User" %>
 <%
     String ctx = request.getContextPath();
     String mode = (String) request.getAttribute("mode");
     if (mode == null) mode = "create";
     boolean editing = "edit".equalsIgnoreCase(mode);
     com.ilisi.jee.tp1.beans.Borrow b = (com.ilisi.jee.tp1.beans.Borrow) request.getAttribute("borrow");
+    Collection<Book> books = (Collection<Book>) request.getAttribute("books");
+    Collection<User> users = (Collection<User>) request.getAttribute("users");
     String pageTitle = editing ? "Edit Borrow" : "New Borrow";
     String actionUrl = ctx + "/borrow?action=" + (editing ? "update" : "create");
     java.text.SimpleDateFormat iso = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -165,16 +168,44 @@
 
         <div class="form-grid">
             <div class="field">
-                <label for="bookId">Book ID</label>
-                <input id="bookId" name="bookId" type="number" min="1" required
-                       value="<%= b != null && b.getBook() != null ? b.getBook().getId() : "" %>"/>
-                <div class="help">Use the internal book identifier.</div>
+                <label for="bookId">Book</label>
+                <select id="bookId" name="bookId" required>
+                    <option value="">-- Select a book --</option>
+                    <%
+                        Integer selectedBookId = (b != null && b.getBook() != null) ? b.getBook().getId() : null;
+                        if (books != null) {
+                            for (Book book : books) {
+                                boolean selected = selectedBookId != null && selectedBookId == book.getId();
+                    %>
+                    <option value="<%= book.getId() %>" <%= selected ? "selected" : "" %>>
+                        <%= book.getTitle() %>
+                    </option>
+                    <%
+                            }
+                        }
+                    %>
+                </select>
+                <div class="help">Choose the book by its title (ID is submitted automatically).</div>
             </div>
             <div class="field">
-                <label for="userId">User ID</label>
-                <input id="userId" name="userId" type="number" min="1" required
-                       value="<%= b != null && b.getUser() != null ? b.getUser().getId() : "" %>"/>
-                <div class="help">Use the member ID from the users list.</div>
+                <label for="userId">User</label>
+                <select id="userId" name="userId" required>
+                    <option value="">-- Select a user --</option>
+                    <%
+                        Integer selectedUserId = (b != null && b.getUser() != null) ? b.getUser().getId() : null;
+                        if (users != null) {
+                            for (User u : users) {
+                                boolean selected = selectedUserId != null && selectedUserId == u.getId();
+                    %>
+                    <option value="<%= u.getId() %>" <%= selected ? "selected" : "" %>>
+                        <%= u.getName() %> (<%= u.getCin() %>)
+                    </option>
+                    <%
+                            }
+                        }
+                    %>
+                </select>
+                <div class="help">Choose the borrower by name (ID is submitted automatically).</div>
             </div>
         </div>
 
