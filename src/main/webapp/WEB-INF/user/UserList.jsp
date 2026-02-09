@@ -113,9 +113,6 @@
 </head>
 <body>
 
-<a href="${pageContext.request.contextPath}/admin" class="btn secondary">← Back to Navigation</a>
-
-
 <div class="list-container">
     <div class="header-flex">
         <h2>Library Members</h2>
@@ -150,6 +147,7 @@
         </c:if>
         </tbody>
     </table>
+    <a href="${pageContext.request.contextPath}/admin" class="add-link" style="display:block;margin-top:16px;">← Back to Admin Panel</a>
 </div>
 
 </body>

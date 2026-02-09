@@ -420,8 +420,9 @@
         </div>
         <div class="breadcrumb">Library System › Administration</div>
         <div class="actions">
-            <a href="${pageContext.request.contextPath}/book" class="btn secondary">← Back to Navigation</a>
-            <a href="${pageContext.request.contextPath}/users" class="btn secondary">Users</a>
+            <a href="${pageContext.request.contextPath}/book" class="btn secondary">← Back to Library</a>
+            <a href="${pageContext.request.contextPath}/users" class="btn secondary">Manage Users</a>
+            <a href="${pageContext.request.contextPath}/borrow" class="btn secondary">Manage Borrows</a>
             <c:if test="${not empty sessionScope.admin}">
                 <a href="${pageContext.request.contextPath}/logout" class="btn secondary">Logout</a>
             </c:if>

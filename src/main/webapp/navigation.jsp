@@ -270,7 +270,8 @@
             <p class="navigation-subtitle">Choose your destination to continue exploring our digital library system</p>
 
             <div class="navigation-options">
-                <a href="${pageContext.request.contextPath}/admin.jsp" class="nav-button admin">
+                <!-- Go through the login servlet so AuthFilter and session handling are respected -->
+                <a href="${pageContext.request.contextPath}/login" class="nav-button admin">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
                         <path d="M9 12l2 2 4-4"/>
