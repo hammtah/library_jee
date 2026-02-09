@@ -15,68 +15,201 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= pageTitle %></title>
+    <title><%= pageTitle %> | Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: system-ui, Arial, sans-serif; margin: 24px; color: #1f2937; }
-        .card { max-width: 720px; background: #fff; padding: 20px; border: 1px solid #e5e7eb; border-radius: 12px; }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        label { font-weight: 600; color: #374151; display: block; margin-bottom: 6px; }
-        input, select { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; }
-        .actions { margin-top: 16px; display: flex; gap: 8px; }
-        .btn { padding: 10px 14px; border-radius: 8px; border: 1px solid #d1d5db; text-decoration: none; }
-        .btn.primary { background: #111827; color: #fff; border-color: #111827; }
-        .btn.secondary { background: #fff; color: #111827; }
-        .help { color: #6b7280; font-size: 12px; }
+        :root {
+            --gr-bg: #F4F1EA;
+            --gr-brown: #382110;
+            --gr-green: #377458;
+            --gr-dark-green: #2b5a44;
+            --gr-text: #333333;
+            --gr-border: #D8D8D8;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--gr-bg);
+            color: var(--gr-text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 16px;
+        }
+
+        .shell {
+            background: #ffffff;
+            width: 100%;
+            max-width: 640px;
+            border: 1px solid var(--gr-border);
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            padding: 24px 28px 28px;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 22px;
+            color: var(--gr-brown);
+            margin: 0 0 8px 0;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 16px;
+        }
+
+        .form-grid.full {
+            grid-template-columns: 1fr;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: var(--gr-brown);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 9px 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--gr-green);
+        }
+
+        .help {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 9px 16px;
+            border-radius: 3px;
+            border: 1px solid transparent;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--gr-green);
+            color: #fff;
+            border-color: var(--gr-dark-green);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--gr-dark-green);
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            color: #00635d;
+            border-color: #ccc;
+        }
+
+        .btn-secondary:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-<h1><%= pageTitle %></h1>
-<div class="card">
+<div class="shell">
+    <h1><%= pageTitle %></h1>
+    <div class="subtitle">
+        Link a reader to a book and track when it is borrowed and returned.
+    </div>
+
     <form method="post" action="<%= actionUrl %>">
         <% if (editing && b != null) { %>
-            <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>
+        <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>
         <% } %>
 
-        <div class="row">
-            <div>
+        <div class="form-grid">
+            <div class="field">
                 <label for="bookId">Book ID</label>
-                <input id="bookId" name="bookId" type="number" min="1" required value="<%= b != null && b.getBook() != null ? b.getBook().getId() : "" %>"/>
-                <div class="help">Specify the book ID.</div>
+                <input id="bookId" name="bookId" type="number" min="1" required
+                       value="<%= b != null && b.getBook() != null ? b.getBook().getId() : "" %>"/>
+                <div class="help">Use the internal book identifier.</div>
             </div>
-            <div>
+            <div class="field">
                 <label for="userId">User ID</label>
-                <input id="userId" name="userId" type="number" min="1" required value="<%= b != null && b.getUser() != null ? b.getUser().getId() : "" %>"/>
-                <div class="help">Specify the user ID.</div>
+                <input id="userId" name="userId" type="number" min="1" required
+                       value="<%= b != null && b.getUser() != null ? b.getUser().getId() : "" %>"/>
+                <div class="help">Use the member ID from the users list.</div>
             </div>
         </div>
 
-        <div class="row" style="margin-top: 12px;">
-            <div>
+        <div class="form-grid" style="margin-top: 14px;">
+            <div class="field">
                 <label for="borrowDate">Borrow Date</label>
                 <input id="borrowDate" name="borrowDate" type="datetime-local" value="<%= borrowDateStr %>"/>
-                <div class="help">Optional. Defaults to now.</div>
+                <div class="help">Optional. Leave empty to default to now.</div>
             </div>
-            <div>
+            <div class="field">
                 <label for="returnDate">Return Date</label>
                 <input id="returnDate" name="returnDate" type="datetime-local" value="<%= returnDateStr %>"/>
-                <div class="help">Optional. Only set if already returned.</div>
+                <div class="help">Optional. Fill when the book is returned.</div>
             </div>
         </div>
 
-        <div style="margin-top: 12px;">
-            <label for="status">Status</label>
-            <select id="status" name="status">
-                <%
-                    String status = b != null && b.getStatus() != null ? b.getStatus() : "borrowed";
-                %>
-                <option value="borrowed" <%= "borrowed".equalsIgnoreCase(status) ? "selected" : "" %>>Borrowed</option>
-                <option value="returned" <%= "returned".equalsIgnoreCase(status) ? "selected" : "" %>>Returned</option>
-            </select>
+        <div class="form-grid full" style="margin-top: 14px;">
+            <div class="field">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <%
+                        String status = b != null && b.getStatus() != null ? b.getStatus() : "borrowed";
+                    %>
+                    <option value="borrowed" <%= "borrowed".equalsIgnoreCase(status) ? "selected" : "" %>>Borrowed</option>
+                    <option value="returned" <%= "returned".equalsIgnoreCase(status) ? "selected" : "" %>>Returned</option>
+                </select>
+                <div class="help">Choose whether the book is currently out or already returned.</div>
+            </div>
         </div>
 
         <div class="actions">
-            <button class="btn primary" type="submit"><%= editing ? "Update" : "Create" %></button>
-            <a class="btn secondary" href="<%= ctx %>/borrow?action=list">Cancel</a>
+            <a class="btn btn-secondary" href="<%= ctx %>/borrow?action=list">Cancel</a>
+            <button class="btn btn-primary" type="submit">
+                <%= editing ? "Save changes" : "Create borrow record" %>
+            </button>
         </div>
     </form>
 </div>

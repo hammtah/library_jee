@@ -13,82 +13,271 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Borrow Management</title>
+    <title>Borrow Management | Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: system-ui, Arial, sans-serif; margin: 24px; color: #1f2937; }
-        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-        .btn { display: inline-block; padding: 8px 14px; border-radius: 8px; text-decoration: none; border: 1px solid #d1d5db; background: #111827; color: #fff; }
-        .btn.secondary { background: #fff; color: #111827; }
-        .btn.danger { background: #b91c1c; color: #fff; border-color: #b91c1c; }
-        .btn.warn { background: #F59E0B; color: #111827; border-color: #D97706; }
-        table { border-collapse: collapse; width: 100%; background: #fff; }
-        th, td { padding: 10px 12px; border-bottom: 1px solid #e5e7eb; text-align: left; vertical-align: middle; }
-        th { background: #f9fafb; font-weight: 600; color: #374151; }
-        .status { padding: 2px 8px; border-radius: 9999px; font-size: 12px; display: inline-block; }
-        .status.borrowed { background: #dbeafe; color: #1d4ed8; }
-        .status.returned { background: #dcfce7; color: #166534; }
-        .actions form { display: inline; margin: 0 2px; }
-        .error { padding: 10px 12px; background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; border-radius: 8px; margin-bottom: 12px; }
-        .empty { padding: 24px; text-align: center; color: #6b7280; }
+        :root {
+            --gr-bg: #F4F1EA;
+            --gr-brown: #382110;
+            --gr-green: #377458;
+            --gr-dark-green: #2b5a44;
+            --gr-text: #333333;
+            --gr-border: #D8D8D8;
+            --gr-table-header: #f9f7f2;
+            --badge-blue: #2563eb;
+            --badge-blue-bg: #dbeafe;
+            --badge-green: #15803d;
+            --badge-green-bg: #dcfce7;
+            --badge-gray: #4b5563;
+            --badge-gray-bg: #e5e7eb;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--gr-bg);
+            color: var(--gr-text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 16px;
+        }
+
+        .shell {
+            background: #ffffff;
+            width: 100%;
+            max-width: 960px;
+            border: 1px solid var(--gr-border);
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            padding: 24px 28px 28px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--gr-border);
+            padding-bottom: 12px;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 22px;
+            color: var(--gr-brown);
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--gr-green);
+            color: #fff;
+            border-color: var(--gr-dark-green);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--gr-dark-green);
+        }
+
+        .btn-link {
+            background: transparent;
+            color: #00635d;
+            border-color: transparent;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            background-color: #fff2f2;
+            border: 1px solid #d00;
+            border-radius: 4px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        .table-wrapper {
+            margin-top: 8px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+        }
+
+        th {
+            background-color: var(--gr-table-header);
+            font-family: 'Merriweather', serif;
+            font-size: 14px;
+            color: var(--gr-brown);
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--gr-border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-borrowed {
+            background-color: var(--badge-blue-bg);
+            color: var(--badge-blue);
+        }
+
+        .status-returned {
+            background-color: var(--badge-green-bg);
+            color: var(--badge-green);
+        }
+
+        .status-unknown {
+            background-color: var(--badge-gray-bg);
+            color: var(--badge-gray);
+        }
+
+        .inline-actions form {
+            display: inline;
+            margin: 0 2px;
+        }
+
+        .inline-link {
+            font-size: 13px;
+            color: #00635d;
+            text-decoration: none;
+            margin-right: 6px;
+        }
+
+        .inline-link:hover {
+            text-decoration: underline;
+        }
+
+        .danger-link {
+            color: #b12704;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 28px 8px;
+            color: #666;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-<header>
-    <h1>Borrow Management</h1>
-    <a class="btn" href="<%=ctx%>/borrow?action=new">New Borrow</a>
-</header>
+<div class="shell">
+    <header>
+        <h1>Borrow Management</h1>
+        <div class="header-actions">
+            <a class="btn btn-link" href="<%=ctx%>/admin">← Back to Admin Panel</a>
+            <a class="btn btn-primary" href="<%=ctx%>/borrow?action=new">Record New Borrow</a>
+        </div>
+    </header>
 
-<% if (error != null && !error.isBlank()) { %>
+    <% if (error != null && !error.isBlank()) { %>
     <div class="error"><%= error %></div>
-<% } %>
+    <% } %>
 
-<div class="table">
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Book</th>
-            <th>User</th>
-            <th>Borrowed At</th>
-            <th>Status</th>
-            <th>Returned At</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% if (borrows == null || borrows.isEmpty()) { %>
-            <tr><td colspan="7" class="empty">No borrow records found.</td></tr>
-        <% } else { 
-               for (com.ilisi.jee.tp1.beans.Borrow b : borrows) { %>
+    <div class="table-wrapper">
+        <table>
+            <thead>
             <tr>
-                <td><%= b.getBorrowId() %></td>
-                <td><%= b.getBook() != null ? b.getBook().getTitle() : ("#" + (b.getBook() != null ? b.getBook().getId() : "")) %></td>
-                <td><%= b.getUser() != null ? b.getUser().getName() : ("#" + (b.getUser() != null ? b.getUser().getId() : "")) %></td>
+                <th>#</th>
+                <th>Book</th>
+                <th>User</th>
+                <th>Borrowed At</th>
+                <th>Status</th>
+                <th>Returned At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if (borrows == null || borrows.isEmpty()) { %>
+            <tr><td colspan="7" class="empty">No borrow records found.</td></tr>
+            <% } else {
+                   for (com.ilisi.jee.tp1.beans.Borrow b : borrows) {
+                       String status = b.getStatus() == null ? "borrowed" : b.getStatus();
+                       String css;
+                       if ("returned".equalsIgnoreCase(status)) {
+                           css = "status-returned";
+                       } else if ("borrowed".equalsIgnoreCase(status)) {
+                           css = "status-borrowed";
+                       } else {
+                           css = "status-unknown";
+                       }
+            %>
+            <tr>
+                <td><span class="badge">#<%= b.getBorrowId() %></span></td>
+                <td><%= b.getBook() != null ? b.getBook().getTitle() : ("Book #" + (b.getBook() != null ? b.getBook().getId() : "")) %></td>
+                <td><%= b.getUser() != null ? b.getUser().getName() : ("User #" + (b.getUser() != null ? b.getUser().getId() : "")) %></td>
                 <td><%= fmt(b.getBorrowDate()) %></td>
                 <td>
-                    <span class="status <%= (b.getStatus() == null ? "" : b.getStatus()).toLowerCase() %>">
-                        <%= b.getStatus() == null ? "borrowed" : b.getStatus() %>
+                    <span class="status-pill <%= css %>">
+                        <%= status %>
                     </span>
                 </td>
                 <td><%= fmt(b.getReturnDate()) %></td>
-                <td class="actions">
-                    <a class="btn secondary" href="<%=ctx%>/borrow?action=edit&id=<%= b.getBorrowId() %>">Edit</a>
-                    <% if (!"returned".equalsIgnoreCase(b.getStatus())) { %>
-                        <form method="post" action="<%=ctx%>/borrow?action=return" onsubmit="return confirm('Mark as returned?');">
-                            <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>
-                            <button class="btn warn" type="submit">Return</button>
-                        </form>
-                    <% } %>
-                    <form method="post" action="<%=ctx%>/borrow?action=delete" onsubmit="return confirm('Delete this record?');">
+                <td class="inline-actions">
+                    <a class="inline-link" href="<%=ctx%>/borrow?action=edit&id=<%= b.getBorrowId() %>">Edit</a>
+                    <% if (!"returned".equalsIgnoreCase(status)) { %>
+                    <form method="post" action="<%=ctx%>/borrow?action=return" onsubmit="return confirm('Mark this borrow as returned?');">
                         <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>
-                        <button class="btn danger" type="submit">Delete</button>
+                        <button type="submit" class="inline-link" style="background:none;border:none;padding:0;">Mark returned</button>
+                    </form>
+                    <% } %>
+                    <form method="post" action="<%=ctx%>/borrow?action=delete" onsubmit="return confirm('Delete this borrow record?');">
+                        <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>
+                        <button type="submit" class="inline-link danger-link" style="background:none;border:none;padding:0;">Delete</button>
                     </form>
                 </td>
             </tr>
-        <%   } 
-           } %>
-        </tbody>
-    </table>
+            <%   }
+               } %>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
