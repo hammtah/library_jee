@@ -552,5 +552,259 @@
     </div>
 </main>
 
+<!-- Floating AI chat assistant -->
+<div id="chat-root"></div>
+<style>
+    .chat-launcher {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
+    }
+    .chat-button {
+        background: #2563eb;
+        color: #fff;
+        border-radius: 999px;
+        padding: 10px 18px;
+        border: none;
+        box-shadow: 0 6px 18px rgba(37,99,235,0.35);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .chat-button:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(37,99,235,0.45);
+    }
+    .chat-window {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 340px;
+        max-height: 520px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.45);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1000;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+    .chat-header {
+        padding: 12px 14px;
+        background: linear-gradient(135deg, #1d4ed8, #22c55e);
+        color: #f9fafb;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .chat-header-title {
+        display: flex;
+        flex-direction: column;
+    }
+    .chat-header-title span:first-child {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+    .chat-header-title span:last-child {
+        font-size: 11px;
+        opacity: 0.9;
+    }
+    .chat-close {
+        background: transparent;
+        border: none;
+        color: inherit;
+        cursor: pointer;
+        font-size: 16px;
+        opacity: 0.85;
+    }
+    .chat-close:hover {
+        opacity: 1;
+    }
+    .chat-messages {
+        padding: 10px 12px 12px;
+        overflow-y: auto;
+        flex: 1;
+        background: radial-gradient(circle at top, #eff6ff 0, #f9fafb 45%, #ffffff 100%);
+    }
+    .chat-message {
+        margin-bottom: 8px;
+        display: flex;
+    }
+    .chat-message.user {
+        justify-content: flex-end;
+    }
+    .chat-bubble {
+        max-width: 80%;
+        border-radius: 14px;
+        padding: 7px 10px;
+        font-size: 13px;
+        line-height: 1.4;
+        box-shadow: 0 1px 3px rgba(15,23,42,0.15);
+        white-space: pre-wrap;
+    }
+    .chat-message.user .chat-bubble {
+        background: #2563eb;
+        color: #eff6ff;
+        border-bottom-right-radius: 4px;
+    }
+    .chat-message.bot .chat-bubble {
+        background: #f3f4f6;
+        color: #111827;
+        border-bottom-left-radius: 4px;
+    }
+    .chat-input-row {
+        border-top: 1px solid #e5e7eb;
+        padding: 8px 8px 10px;
+        display: flex;
+        gap: 6px;
+        background: #f9fafb;
+    }
+    .chat-input {
+        flex: 1;
+        border-radius: 999px;
+        border: 1px solid #d1d5db;
+        padding: 7px 11px;
+        font-size: 13px;
+        outline: none;
+    }
+    .chat-input:focus-visible {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 1px rgba(37,99,235,0.4);
+    }
+    .chat-send {
+        border-radius: 999px;
+        border: none;
+        padding: 0 12px;
+        font-size: 13px;
+        font-weight: 600;
+        background: #22c55e;
+        color: #f9fafb;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .chat-send[disabled] {
+        opacity: 0.5;
+        cursor: default;
+    }
+</style>
+<script>
+    (function() {
+        const root = document.getElementById('chat-root');
+        if (!root) return;
+
+        let isOpen = false;
+
+        function renderLauncher() {
+            root.innerHTML = '';
+            const wrapper = document.createElement('div');
+            wrapper.className = 'chat-launcher';
+            wrapper.innerHTML = '<button class="chat-button" type="button">' +
+                '<span>Ask the Library Assistant</span>' +
+                '</button>';
+            wrapper.querySelector('button').addEventListener('click', openChat);
+            root.appendChild(wrapper);
+        }
+
+        function openChat() {
+            if (isOpen) return;
+            isOpen = true;
+            root.innerHTML = '';
+
+            const win = document.createElement('div');
+            win.className = 'chat-window';
+            win.innerHTML =
+                '<div class="chat-header">' +
+                '  <div class="chat-header-title">' +
+                '    <span>Library AI Assistant</span>' +
+                '    <span>Ask for personalized book picks</span>' +
+                '  </div>' +
+                '  <button class="chat-close" type="button" aria-label="Close chat">×</button>' +
+                '</div>' +
+                '<div class="chat-messages"></div>' +
+                '<div class="chat-input-row">' +
+                '  <input class="chat-input" type="text" placeholder="Ask for a genre, mood, or author..." />' +
+                '  <button class="chat-send" type="button">Send</button>' +
+                '</div>';
+
+            root.appendChild(win);
+
+            const messages = win.querySelector('.chat-messages');
+            const input = win.querySelector('.chat-input');
+            const sendBtn = win.querySelector('.chat-send');
+            const closeBtn = win.querySelector('.chat-close');
+
+            closeBtn.addEventListener('click', function () {
+                isOpen = false;
+                renderLauncher();
+            });
+
+            function addMessage(text, who) {
+                const row = document.createElement('div');
+                row.className = 'chat-message ' + who;
+                const bubble = document.createElement('div');
+                bubble.className = 'chat-bubble';
+                bubble.textContent = text;
+                row.appendChild(bubble);
+                messages.appendChild(row);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            function sendMessage() {
+                const text = input.value.trim();
+                if (!text) return;
+                addMessage(text, 'user');
+                input.value = '';
+                input.focus();
+                sendBtn.disabled = true;
+
+                const params = new URLSearchParams();
+                params.append('message', text);
+
+                fetch('<%=request.getContextPath()%>/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body: params.toString()
+                }).then(function (r) {
+                    return r.json();
+                }).then(function (data) {
+                    const reply = data && data.reply ? data.reply : 'Sorry, something went wrong.';
+                    addMessage(reply, 'bot');
+                }).catch(function () {
+                    addMessage('Sorry, I could not reach the assistant. Please try again later.', 'bot');
+                }).finally(function () {
+                    sendBtn.disabled = false;
+                });
+            }
+
+            sendBtn.addEventListener('click', sendMessage);
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // Initial greeting
+            addMessage('Hi! I am your library assistant. Tell me what kind of books you like (genre, author, mood) and I will recommend titles from this library.', 'bot');
+            input.focus();
+        }
+
+        renderLauncher();
+    })();
+</script>
+
 </body>
 </html>
