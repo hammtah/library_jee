@@ -78,7 +78,7 @@ public class BorrowDao implements IBorrowDao {
                 b.borrow_id, b.book_id, b.user_id, b.borrow_date, b.status, b.return_date,
                 bk.id AS bk_id, bk.img, bk.nb, bk.year, bk.isbn, bk.genre, bk.price, bk.description, bk.title, bk.author, bk.stock, bk.drive_url,
                 u.user_id AS u_id, u.name, u.cin
-            FROM borrow bborrows
+            FROM borrow b
             JOIN books bk ON b.book_id = bk.id
             JOIN users u ON b.user_id = u.user_id
             WHERE b.borrow_id = ?

@@ -2,6 +2,19 @@
 <%! 
     java.text.SimpleDateFormat _fmt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
     String fmt(java.util.Date d){ return d == null ? "" : _fmt.format(d); }
+    boolean isDelayed(com.ilisi.jee.tp1.beans.Borrow b) {
+        if (b == null || b.getBorrowDate() == null) return false;
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(b.getBorrowDate());
+        cal.add(java.util.Calendar.DAY_OF_YEAR, com.ilisi.jee.tp1.service.borrow.IBorrowService.maxBorrowDays);
+        java.util.Date due = cal.getTime();
+        if(b.getReturnDate() != null){
+            return b.getReturnDate().after(due);
+        } else {
+            java.util.Date now = new java.util.Date();
+            return now.after(due);
+        }
+    }
 %>
 <%
     String ctx = request.getContextPath();
@@ -49,7 +62,8 @@
         .shell {
             background: #ffffff;
             width: 100%;
-            max-width: 960px;
+            /*max-width: 960px;*/
+            max-width: 1100px;
             border: 1px solid var(--gr-border);
             border-radius: 4px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -229,6 +243,7 @@
                 <th>User</th>
                 <th>Borrowed At</th>
                 <th>Status</th>
+                <th>Delay</th>
                 <th>Returned At</th>
                 <th>Actions</th>
             </tr>
@@ -237,8 +252,14 @@
             <% if (borrows == null || borrows.isEmpty()) { %>
             <tr><td colspan="7" class="empty">No borrow records found.</td></tr>
             <% } else {
-                   for (com.ilisi.jee.tp1.beans.Borrow b : borrows) {
-                       String status = b.getStatus() == null ? "borrowed" : b.getStatus();
+                for (com.ilisi.jee.tp1.beans.Borrow b : borrows) {
+                    String status = "unknown";
+                       if(b.getBorrowDate() != null){
+                           status = "borrowed";
+                       }
+                       if(b.getReturnDate() != null){
+                           status = "returned";
+                       }
                        String css;
                        if ("returned".equalsIgnoreCase(status)) {
                            css = "status-returned";
@@ -258,19 +279,28 @@
                         <%= status %>
                     </span>
                 </td>
+                <td>
+                    <% if (isDelayed(b)) { %>
+                        <span style="color:#b12704;font-weight:700;">Delayed</span>
+                    <% } else if(!"returned".equalsIgnoreCase(status)){ %>
+                        <span style="color:#4b5563;font-size:12px;">...</span>
+                    <% } else{ %>
+                        <span style="color:#25ac37;font-size:12px;">On Time</span>
+                    <% } %>
+                </td>
                 <td><%= fmt(b.getReturnDate()) %></td>
                 <td class="inline-actions">
-                    <a class="inline-link" href="<%=ctx%>/borrow?action=edit&id=<%= b.getBorrowId() %>">Edit</a>
+<%--                    <a class="inline-link" href="<%=ctx%>/borrow?action=edit&id=<%= b.getBorrowId() %>">Edit</a>--%>
                     <% if (!"returned".equalsIgnoreCase(status)) { %>
                     <form method="post" action="<%=ctx%>/borrow?action=return" onsubmit="return confirm('Mark this borrow as returned?');">
                         <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>
                         <button type="submit" class="inline-link" style="background:none;border:none;padding:0;">Mark returned</button>
                     </form>
                     <% } %>
-                    <form method="post" action="<%=ctx%>/borrow?action=delete" onsubmit="return confirm('Delete this borrow record?');">
-                        <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>
-                        <button type="submit" class="inline-link danger-link" style="background:none;border:none;padding:0;">Delete</button>
-                    </form>
+<%--                    <form method="post" action="<%=ctx%>/borrow?action=delete" onsubmit="return confirm('Delete this borrow record?');">--%>
+<%--                        <input type="hidden" name="id" value="<%= b.getBorrowId() %>"/>--%>
+<%--                        <button type="submit" class="inline-link danger-link" style="background:none;border:none;padding:0;">Delete</button>--%>
+<%--                    </form>--%>
                 </td>
             </tr>
             <%   }

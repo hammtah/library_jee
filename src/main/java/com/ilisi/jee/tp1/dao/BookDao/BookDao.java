@@ -63,7 +63,7 @@ public class BookDao implements IBookDao{
 
     @Override
     public Collection<Book> getAll() throws DaoException {
-        String getSql = "SELECT * FROM books;";
+        String getSql = "SELECT * FROM books ;";
         ArrayList<Book> books = new ArrayList<>();
         try(var conn = Connection.getConnection()) {
             var st = conn.createStatement();
@@ -82,6 +82,7 @@ public class BookDao implements IBookDao{
                         res.getString("drive_url")
                 );
                 book.setId(res.getInt("id"));
+//                book.setBorrowId(res.getInt("borrow_id"));
                 books.add(book);
             }
         }catch(SQLException e){

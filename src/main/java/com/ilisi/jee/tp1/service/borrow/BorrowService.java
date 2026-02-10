@@ -7,7 +7,10 @@ import com.ilisi.jee.tp1.dao.BookDao.IBookDao;
 import com.ilisi.jee.tp1.dao.BorrowDao.IBorrowDao;
 import com.ilisi.jee.tp1.dao.UserDao.IUserDao;
 import com.ilisi.jee.tp1.exception.DaoException;
+import com.ilisi.jee.tp1.utility.Connection;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -22,7 +25,33 @@ public class BorrowService implements IBorrowService{
     }
 
     public Collection<Book> getAllBooks() throws DaoException {
-        return bookDao.getAll();
+            String getSql = "SELECT * FROM books join borrow on books.id = borrow.book_id;";
+            ArrayList<Book> books = new ArrayList<>();
+            try(var conn = Connection.getConnection()) {
+                var st = conn.createStatement();
+                var res = st.executeQuery(getSql);
+                while (res.next()) {
+                    var book = new Book(
+                            res.getInt("year"),
+                            res.getString("isbn"),
+                            res.getString("genre"),
+                            res.getFloat("price"),
+                            res.getString("description"),
+                            res.getString("title"),
+                            res.getString("author"),
+                            res.getString("img"),
+                            res.getInt("stock"),
+                            res.getString("drive_url")
+                    );
+                    book.setId(res.getInt("id"));
+                    book.setBorrowId(res.getInt("borrow_id"));
+                    books.add(book);
+                }
+            }catch(SQLException e){
+                throw new DaoException("Error retrieving books from DB: ", e);
+            }
+            return books;
+
     }
 
     public Collection<User> getAllUsers() throws DaoException {

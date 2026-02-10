@@ -4,7 +4,7 @@ public class Book {
     public Book(int id){
         this.id = id;
     }
-    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock, String driveUrl) {
+    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock, String driveUrl, int borrowId) {
         this.year = year;
         this.isbn = isbn;
         this.genre = genre;
@@ -15,9 +15,13 @@ public class Book {
         this.img = img;
         this.stock = stock;
         this.driveUrl = driveUrl != null ? driveUrl : "";
+        this.borrowId = borrowId;
+    }
+    public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock, String driveUrl) {
+        this(year, isbn, genre, price, description, title, author, img, stock, driveUrl, 0);
     }
     public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img, int stock) {
-        this(year, isbn, genre, price, description, title, author, img, stock, null);
+        this(year, isbn, genre, price, description, title, author, img, stock, null, 0);
     }
     public Book(int year, String isbn, String genre, float price, String description, String title, String author, String img) {
         this(year, isbn, genre, price, description, title, author, img, 0);
@@ -32,6 +36,15 @@ public class Book {
     private String description;
     private String title;
     private String author;
+    private int borrowId;
+
+    public int getBorrowId() {
+        return borrowId;
+    }
+
+    public void setBorrowId(int borrowId) {
+        this.borrowId = borrowId;
+    }
 
     public int getStock() {
         return stock;
