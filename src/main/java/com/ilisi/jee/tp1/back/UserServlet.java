@@ -2,6 +2,11 @@ package com.ilisi.jee.tp1.back;
 
 import com.ilisi.jee.tp1.beans.User;
 import com.ilisi.jee.tp1.dao.UserDao.UserDao;
+import com.ilisi.jee.tp1.dao.BookDao.BookDao;
+import com.ilisi.jee.tp1.dao.BorrowDao.BorrowDao;
+import com.ilisi.jee.tp1.exception.DaoException;
+import com.ilisi.jee.tp1.service.borrow.BorrowService;
+import com.ilisi.jee.tp1.service.borrow.IBorrowService;
 import com.ilisi.jee.tp1.service.user.IUserService;
 import com.ilisi.jee.tp1.service.user.UserService;
 import com.ilisi.jee.tp1.exception.User.UserServiceException;
@@ -22,6 +27,7 @@ public class UserServlet extends HttpServlet {
     private static final String USER_SERVICE_CTX_KEY = "UserService";
 
     private IUserService userService;
+    private IBorrowService borrowService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -34,6 +40,7 @@ public class UserServlet extends HttpServlet {
             this.userService = new UserService(new UserDao());
             ctx.setAttribute(USER_SERVICE_CTX_KEY, this.userService);
         }
+        this.borrowService = new BorrowService(new BookDao(), new BorrowDao(), new UserDao());
     }
 
     @Override
@@ -47,6 +54,10 @@ public class UserServlet extends HttpServlet {
                     int id = Integer.parseInt(req.getParameter("id"));
                     var user = userService.getUserById(id);
                     req.setAttribute("user", user);
+                    var borrows = borrowService.getByUserId(id);
+                    int delayedCount = borrowService.countDelayedBorrowsByUser(id);
+                    req.setAttribute("borrows", borrows);
+                    req.setAttribute("delayedBorrowCount", delayedCount);
                     req.getRequestDispatcher("/WEB-INF/user/UserDetails.jsp").forward(req, resp);
                     break;
                 }
@@ -82,6 +93,9 @@ public class UserServlet extends HttpServlet {
                 }
             }
         } catch (UserServiceException e) {
+            req.setAttribute("error", e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/user/UserList.jsp").forward(req, resp);
+        } catch (DaoException e) {
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/user/UserList.jsp").forward(req, resp);
         } catch (NumberFormatException e) {

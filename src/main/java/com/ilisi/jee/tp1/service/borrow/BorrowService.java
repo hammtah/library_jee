@@ -88,4 +88,34 @@ public class BorrowService implements IBorrowService{
     public Collection<Borrow> getAll() throws DaoException {
         return borrowDao.getAll();
     }
+
+    @Override
+    public Collection<Borrow> getByUserId(int userId) throws DaoException {
+        return borrowDao.getByUserId(userId);
+    }
+
+    @Override
+    public int countDelayedBorrowsByUser(int userId) throws DaoException {
+        int count = 0;
+        for (Borrow b : borrowDao.getByUserId(userId)) {
+            if (isDelayed(b)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private boolean isDelayed(Borrow b) {
+        if (b == null || b.getBorrowDate() == null) return false;
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(b.getBorrowDate());
+        cal.add(java.util.Calendar.DAY_OF_YEAR, IBorrowService.maxBorrowDays);
+        java.util.Date due = cal.getTime();
+        if (b.getReturnDate() != null) {
+            return b.getReturnDate().after(due);
+        } else {
+            java.util.Date now = new java.util.Date();
+            return now.after(due);
+        }
+    }
 }

@@ -15,6 +15,8 @@ public interface IBorrowService {
     Collection<Borrow> getAll() throws DaoException;
     Collection<Book> getAllBooks() throws DaoException;
     Collection<User> getAllUsers() throws DaoException;
+    Collection<Borrow> getByUserId(int userId) throws DaoException;
+    int countDelayedBorrowsByUser(int userId) throws DaoException;
 //    Borrow get(int id) throws DaoException;
 //    void update(int id, Borrow b) throws DaoException;
 //    void delete(int id) throws DaoException;
