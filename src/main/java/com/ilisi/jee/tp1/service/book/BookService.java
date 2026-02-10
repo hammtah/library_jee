@@ -52,4 +52,17 @@ public class BookService implements IBookService{
             throw new BookServiceException("Cannot delete book");
         }
     }
+    public boolean isDelayed(com.ilisi.jee.tp1.beans.Borrow b) {
+        if (b == null || b.getBorrowDate() == null) return false;
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(b.getBorrowDate());
+        cal.add(java.util.Calendar.DAY_OF_YEAR, com.ilisi.jee.tp1.service.borrow.IBorrowService.maxBorrowDays);
+        java.util.Date due = cal.getTime();
+        if(b.getReturnDate() != null){
+            return b.getReturnDate().after(due);
+        } else {
+            java.util.Date now = new java.util.Date();
+            return now.after(due);
+        }
+    }
 }

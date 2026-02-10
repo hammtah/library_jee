@@ -230,9 +230,9 @@
                         String status = b != null && b.getStatus() != null ? b.getStatus() : "borrowed";
                     %>
                     <option value="borrowed" <%= "borrowed".equalsIgnoreCase(status) ? "selected" : "" %>>Borrowed</option>
-                    <option value="returned" <%= "returned".equalsIgnoreCase(status) ? "selected" : "" %>>Returned</option>
+<%--                    <option value="returned" <%= "returned".equalsIgnoreCase(status) ? "selected" : "" %>>Returned</option>--%>
                 </select>
-                <div class="help">Choose whether the book is currently out or already returned.</div>
+<%--                <div class="help">Choose whether the book is currently out or already returned.</div>--%>
             </div>
         </div>
 

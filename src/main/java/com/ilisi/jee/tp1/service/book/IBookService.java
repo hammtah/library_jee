@@ -11,4 +11,5 @@ public interface IBookService {
     public Book get(int id) throws BookServiceException;
     public void update(int id, Book b) throws BookServiceException;
     public void delete(int id) throws BookServiceException;
+    public boolean isDelayed(com.ilisi.jee.tp1.beans.Borrow b);
 }

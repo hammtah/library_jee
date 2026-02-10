@@ -135,7 +135,7 @@
                 <td><span class="badge">${user.cin}</span></td>
                 <td><a class="badge" href="${pageContext.request.contextPath}/users?action=form&id=${user.id}" style="margin-right:8px">Update</a>
                 <a class="badge" href="${pageContext.request.contextPath}/users?action=delete&id=${user.id}" style="margin-right:8px">Delete</a>
-<%--                <a class="badge" href="${pageContext.request.contextPath}/users?action=getById&id=${user.id}">Details</a></td>--%>
+                <a class="badge" href="${pageContext.request.contextPath}/users?action=getById&id=${user.id}">Details</a></td>
             </tr>
         </c:forEach>
 
