@@ -157,6 +157,17 @@
             font-size: 13px;
         }
 
+        .user-main .phone-badge {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background: #e0f2fe;
+            font-family: monospace;
+            font-size: 13px;
+            color: #0369a1;
+        }
+
         .user-stats {
             text-align: right;
             min-width: 220px;
@@ -266,6 +277,10 @@
                 <div>
                     CIN:
                     <span class="cin-badge"><%= user.getCin() %></span>
+                </div>
+                <div>
+                    Phone:
+                    <span class="phone-badge"><%= user.getPhone() %></span>
                 </div>
             <% } %>
         </div>

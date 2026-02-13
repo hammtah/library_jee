@@ -124,6 +124,7 @@
         <tr>
             <th>Name</th>
             <th>CIN</th>
+            <th>Phone</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -133,6 +134,7 @@
             <tr>
                 <td><strong>${user.name}</strong></td>
                 <td><span class="badge">${user.cin}</span></td>
+                <td><span class="badge">${user.phone}</span></td>
                 <td><a class="badge" href="${pageContext.request.contextPath}/users?action=form&id=${user.id}" style="margin-right:8px">Update</a>
                 <a class="badge" href="${pageContext.request.contextPath}/users?action=delete&id=${user.id}" style="margin-right:8px">Delete</a>
                 <a class="badge" href="${pageContext.request.contextPath}/users?action=getById&id=${user.id}">Details</a></td>

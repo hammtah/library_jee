@@ -14,7 +14,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 public class BorrowDao implements IBorrowDao {
 
@@ -51,7 +50,7 @@ public class BorrowDao implements IBorrowDao {
             SELECT 
                 b.borrow_id, b.book_id, b.user_id, b.borrow_date, b.status, b.return_date,
                 bk.id AS bk_id, bk.img, bk.nb, bk.year, bk.isbn, bk.genre, bk.price, bk.description, bk.title, bk.author, bk.stock, bk.drive_url,
-                u.user_id AS u_id, u.name, u.cin
+                u.user_id AS u_id, u.name, u.cin, u.phone
             FROM borrow b
             JOIN books bk ON b.book_id = bk.id
             JOIN users u ON b.user_id = u.user_id
@@ -77,7 +76,7 @@ public class BorrowDao implements IBorrowDao {
             SELECT 
                 b.borrow_id, b.book_id, b.user_id, b.borrow_date, b.status, b.return_date,
                 bk.id AS bk_id, bk.img, bk.nb, bk.year, bk.isbn, bk.genre, bk.price, bk.description, bk.title, bk.author, bk.stock, bk.drive_url,
-                u.user_id AS u_id, u.name, u.cin
+                u.user_id AS u_id, u.name, u.cin, u.phone
             FROM borrow b
             JOIN books bk ON b.book_id = bk.id
             JOIN users u ON b.user_id = u.user_id
@@ -161,7 +160,8 @@ public class BorrowDao implements IBorrowDao {
         User user = new User(
                 rs.getInt("u_id"),
                 rs.getString("name"),
-                rs.getString("cin")
+                rs.getString("cin"),
+                rs.getString("phone")
         );
 
         // Map Borrow
@@ -183,7 +183,7 @@ public class BorrowDao implements IBorrowDao {
             SELECT 
                 b.borrow_id, b.book_id, b.user_id, b.borrow_date, b.status, b.return_date,
                 bk.id AS bk_id, bk.img, bk.nb, bk.year, bk.isbn, bk.genre, bk.price, bk.description, bk.title, bk.author, bk.stock, bk.drive_url,
-                u.user_id AS u_id, u.name, u.cin
+                u.user_id AS u_id, u.name, u.cin, u.phone
             FROM borrow b
             JOIN books bk ON b.book_id = bk.id
             JOIN users u ON b.user_id = u.user_id
@@ -212,7 +212,7 @@ public class BorrowDao implements IBorrowDao {
             SELECT 
                 b.borrow_id, b.book_id, b.user_id, b.borrow_date, b.status, b.return_date,
                 bk.id AS bk_id, bk.img, bk.nb, bk.year, bk.isbn, bk.genre, bk.price, bk.description, bk.title, bk.author, bk.stock, bk.drive_url,
-                u.user_id AS u_id, u.name, u.cin
+                u.user_id AS u_id, u.name, u.cin, u.phone
             FROM borrow b
             JOIN books bk ON b.book_id = bk.id
             JOIN users u ON b.user_id = u.user_id

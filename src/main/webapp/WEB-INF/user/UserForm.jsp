@@ -159,6 +159,11 @@
             <input type="text" id="cin" name="cin" class="input-field" placeholder="e.g. AB123456" required>
         </div>
 
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" class="input-field" placeholder="e.g. +212612345678" required>
+        </div>
+
         <button type="submit" class="submit-btn">Create Account</button>
     </form>
     </c:if>
@@ -172,6 +177,11 @@
             <div class="form-group">
                 <label for="cin">CIN (ID Card Number)</label>
                 <input type="text" id="cin" name="cin" class="input-field" placeholder="e.g. AB123456" required value="${user.cin}">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="input-field" placeholder="e.g. +212612345678" required value="${user.phone}">
             </div>
 
             <button type="submit" class="submit-btn">Update</button>

@@ -146,7 +146,11 @@ public class UserServlet extends HttpServlet {
     private User readUserFromRequest(HttpServletRequest req) throws Exception{
         String name = req.getParameter("name").trim();
         String cin = req.getParameter("cin").trim();
+        String phone = req.getParameter("phone") != null ? req.getParameter("phone").trim() : "";
         if(name.isEmpty() || cin.isEmpty()) throw new Exception("Name and Cin should not be empty");
-        return new User(name, cin);
+        if(phone.isEmpty()) throw new Exception("Phone number should not be empty");
+        User u = new User(name, cin);
+        u.setPhone(phone);
+        return u;
         }
 }

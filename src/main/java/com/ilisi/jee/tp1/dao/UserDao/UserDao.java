@@ -12,11 +12,12 @@ public class UserDao implements IUserDao {
 
     @Override
     public void save(User u) throws DaoException {
-        String sql = "INSERT INTO users (name, cin) VALUES (?, ?);";
+        String sql = "INSERT INTO users (name, cin, phone) VALUES (?, ?, ?);";
         try (var conn = Connection.getConnection()) {
             var pst = conn.prepareStatement(sql);
             pst.setString(1, u.getName());
             pst.setString(2, u.getCin());
+            pst.setString(3, u.getPhone());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Error creating user: ", e);
@@ -25,7 +26,7 @@ public class UserDao implements IUserDao {
 
     @Override
     public Collection<User> getAll() throws DaoException {
-        String sql = "SELECT user_id, name, cin FROM users;";
+        String sql = "SELECT user_id, name, cin, phone FROM users;";
         var resCollection = new ArrayList<User>();
         try (var conn = Connection.getConnection()) {
             var pst = conn.prepareStatement(sql);
@@ -34,7 +35,8 @@ public class UserDao implements IUserDao {
                 resCollection.add(new User(
                         rs.getInt("user_id"),
                         rs.getString("name"),
-                        rs.getString("cin")
+                        rs.getString("cin"),
+                        rs.getString("phone")
                 ));
             }
         } catch (SQLException e) {
@@ -45,7 +47,7 @@ public class UserDao implements IUserDao {
 
     @Override
     public User get(int id) throws DaoException {
-        String sql = "SELECT user_id, name, cin FROM users WHERE user_id = ?;";
+        String sql = "SELECT user_id, name, cin, phone FROM users WHERE user_id = ?;";
         try (var conn = Connection.getConnection()) {
             var pst = conn.prepareStatement(sql);
             pst.setInt(1, id);
@@ -54,7 +56,8 @@ public class UserDao implements IUserDao {
             return new User(
                     rs.getInt("user_id"),
                     rs.getString("name"),
-                    rs.getString("cin")
+                    rs.getString("cin"),
+                    rs.getString("phone")
             );
         } catch (SQLException e) {
             throw new DaoException("Error fetching user by id: ", e);
@@ -63,12 +66,13 @@ public class UserDao implements IUserDao {
 
     @Override
     public void update(int id, User u) throws DaoException {
-        String sql = "UPDATE users SET name = ?, cin = ? WHERE user_id = ?;";
+        String sql = "UPDATE users SET name = ?, cin = ?, phone = ? WHERE user_id = ?;";
         try (var conn = Connection.getConnection()) {
             var pst = conn.prepareStatement(sql);
             pst.setString(1, u.getName());
             pst.setString(2, u.getCin());
-            pst.setInt(3, id);
+            pst.setString(3, u.getPhone());
+            pst.setInt(4, id);
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Error updating user: ", e);
