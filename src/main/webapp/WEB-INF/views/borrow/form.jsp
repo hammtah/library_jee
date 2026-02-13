@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java"
         import="java.util.Collection,com.ilisi.jee.tp1.beans.Book,com.ilisi.jee.tp1.beans.User" %>
 <%
@@ -171,19 +172,12 @@
                 <label for="bookId">Book</label>
                 <select id="bookId" name="bookId" required>
                     <option value="">-- Select a book --</option>
-                    <%
-                        Integer selectedBookId = (b != null && b.getBook() != null) ? b.getBook().getId() : null;
-                        if (books != null) {
-                            for (Book book : books) {
-                                boolean selected = selectedBookId != null && selectedBookId == book.getId();
-                    %>
-                    <option value="<%= book.getId() %>" <%= selected ? "selected" : "" %>>
-                        <%= book.getTitle() %>
-                    </option>
-                    <%
-                            }
-                        }
-                    %>
+                    <c:forEach items="${books}" var="book">
+                        <option value="${book.id}" >
+<%--                        <option value="${book.id}" ${b != null && b.book != null && b.book.id == book.id ? "selected" : ""}>--%>
+                            ${book.title}
+                        </option>
+                    </c:forEach>
                 </select>
                 <div class="help">Choose the book by its title (ID is submitted automatically).</div>
             </div>

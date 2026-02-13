@@ -5,6 +5,8 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="com.ilisi.jee.tp1.service.book.BookService" %>
+<%@ page import="com.ilisi.jee.tp1.dao.BorrowDao.BorrowDao" %>
+<%@ page import="com.ilisi.jee.tp1.dao.BookDao.BookDao" %>
 <%
 //    BookService bookService = new BookService();
 //    Collection<Book> books = null;
@@ -467,6 +469,7 @@
                             <th>Year</th>
                             <th>Price</th>
                             <th>Stock</th>
+                            <th>Available books</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -502,6 +505,12 @@
                                 <span class="book-stock <%= stockClass %>">
                                     <%= book.getStock() %> 
                                     <%= book.getStock() == 1 ? "copy" : "copies" %>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="book-stock <%= stockClass %>">
+                                    <% int nbBorrowed = new BorrowDao().getNotReturnedBorrowsByBookId(book.getId()).size(); %>
+                                    <%= (book.getStock() - nbBorrowed) %> available
                                 </span>
                             </td>
                             <td>

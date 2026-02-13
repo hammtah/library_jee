@@ -8,6 +8,10 @@ import com.ilisi.jee.tp1.dao.BorrowDao.BorrowDao;
 import com.ilisi.jee.tp1.dao.BorrowDao.IBorrowDao;
 import com.ilisi.jee.tp1.dao.UserDao.UserDao;
 import com.ilisi.jee.tp1.exception.DaoException;
+import com.ilisi.jee.tp1.service.IUserService;
+import com.ilisi.jee.tp1.service.UserService;
+import com.ilisi.jee.tp1.service.book.BookService;
+import com.ilisi.jee.tp1.service.book.IBookService;
 import com.ilisi.jee.tp1.service.borrow.BorrowService;
 import com.ilisi.jee.tp1.service.borrow.IBorrowService;
 import jakarta.servlet.ServletException;
@@ -27,11 +31,14 @@ import java.util.Locale;
 public class BorrowServlet extends HttpServlet {
 
     private IBorrowService borrowService;
-
+    private IBookService bookService;
+    private IUserService userService;
     @Override
     public void init() throws ServletException {
         super.init();
         this.borrowService = new BorrowService(new BookDao(), new BorrowDao(), new UserDao());
+        this.bookService = new BookService(new BookDao());
+        this.userService = new UserService(new UserDao());
     }
 
     @Override
@@ -42,8 +49,8 @@ public class BorrowServlet extends HttpServlet {
         try {
             // For any view that shows the borrow form we need the list of books and users
             if ("new".equalsIgnoreCase(action) || "edit".equalsIgnoreCase(action)) {
-                request.setAttribute("books", borrowService.getAllBooks());
-                request.setAttribute("users", borrowService.getAllUsers());
+                request.setAttribute("books", bookService.getAll());
+                request.setAttribute("users", userService.listUsers());
             }
 
             switch (action) {
@@ -71,7 +78,7 @@ public class BorrowServlet extends HttpServlet {
 //                case "list":
                 default -> list(request, response);
             }
-        } catch (DaoException e) {
+        } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
             try {
                 list(request, response);
