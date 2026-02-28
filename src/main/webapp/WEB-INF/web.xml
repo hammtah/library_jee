@@ -11,6 +11,15 @@
         <servlet-name>book</servlet-name>
         <url-pattern>/book</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>chat</servlet-name>
+        <servlet-class>com.ilisi.jee.tp1.back.ChatServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>chat</servlet-name>
+        <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
 <!--    <error-page>-->
 <!--        <location>/Error.jsp</location>-->
 <!--    </error-page>-->
